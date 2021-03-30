@@ -1,0 +1,7 @@
+{
+  "name": "EPA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
