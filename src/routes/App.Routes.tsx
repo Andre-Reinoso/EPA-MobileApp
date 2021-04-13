@@ -5,7 +5,21 @@ import PrivateRoute from './Private.Routes';
 import PublicRoute from './Public.Routes';
 
 /* Pages */
-import { Login, MarketPlace } from './../pages/';
+import {
+	Login,
+	MarketPlace,
+	AddProduct,
+	Chat,
+	Dashboard,
+	MyChats,
+	MyProducts,
+	ProductDetail,
+	Profile,
+	SelectCategory,
+	SelectLanguage,
+	SignUp,
+	Welcome,
+} from './../pages/';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -31,7 +45,23 @@ const App: React.FC = () => (
 		<IonReactRouter>
 			<IonRouterOutlet>
 				<Route exact path='/login' component={Login} />
-				<Route exact path='/marketplace' component={MarketPlace} />
+				<Route exact path='/signup' component={SignUp} />
+
+				<Route exact path='/selectLanguage' component={SelectLanguage} />
+				<Route exact path='/welcome' component={Welcome} />
+				<Route exact path='/selectCategory' component={SelectCategory} />
+
+				<Route exact path='/marketPlace' component={MarketPlace} />
+				<Route exact path='/productDetail' component={ProductDetail} />
+
+				<Route exact path='/dashboard' component={Dashboard} />
+				<Route exact path='/profile' component={Profile} />
+				<Route exact path='/myProducts' component={MyProducts} />
+				<Route exact path='/addProduct' component={AddProduct} />
+
+				<Route exact path='/chat' component={Chat} />
+				<Route exact path='/myChats' component={MyChats} />
+
 				<Route exact path='/' render={() => <Redirect to='/login' />} />
 			</IonRouterOutlet>
 		</IonReactRouter>
