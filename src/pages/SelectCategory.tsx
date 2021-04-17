@@ -1,9 +1,13 @@
 import React from 'react';
+import { SelectCategoryLayout } from './../components/layouts';
+import { SelecCategoryTemplate } from './../components/templates';
 
 const SelectCategory: React.FC = () => {
 	return (
 		<>
-			<h1>SelectLanguage</h1>
+			<SelectCategoryLayout>
+				<SelecCategoryTemplate />
+			</SelectCategoryLayout>
 		</>
 	);
 };

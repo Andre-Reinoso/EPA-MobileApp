@@ -19,7 +19,6 @@ const SignUpBuyerForm: React.FC = () => {
 	return (
 		<>
 			<IonList className='px-2'>
-				<h3 className='fw-bold'>Sign Up</h3>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>Company Name</IonLabel>
 					<IonInput required type='text'></IonInput>

@@ -1,9 +1,3 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import PrivateRoute from './Private.Routes';
-import PublicRoute from './Public.Routes';
-
 /* Pages */
 import {
 	Login,
@@ -40,32 +34,158 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import '../theme/variables.css';
 
-const App: React.FC = () => (
-	<IonApp>
-		<IonReactRouter>
-			<IonRouterOutlet>
-				<Route exact path='/login' component={Login} />
-				<Route exact path='/signup' component={SignUp} />
+import { useEffect, useContext, useState } from 'react';
+import { auth, db } from './../services/firebase/firebase.config';
+import { UserContext } from '../context/User.Context';
+import { Redirect, Route } from 'react-router-dom';
+import { IonApp, IonRouterOutlet, useIonToast, IonLoading } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import PrivateRoute from './Private.Routes';
+import PublicRoute from './Public.Routes';
+import { translateText } from './../services/translate/';
 
-				<Route exact path='/selectLanguage' component={SelectLanguage} />
-				<Route exact path='/welcome' component={Welcome} />
-				<Route exact path='/selectCategory' component={SelectCategory} />
+const App: React.FC = () => {
+	const { currentUser, login, logout } = useContext(UserContext);
+	const [present, dismiss] = useIonToast();
+	const [presentCollection, dismissCollection] = useIonToast();
 
-				<Route exact path='/marketPlace' component={MarketPlace} />
-				<Route exact path='/productDetail' component={ProductDetail} />
+	async function authenticateUser(user: any) {
+		try {
+			const result = await db.collection('users').doc(user.uid).get();
 
-				<Route exact path='/dashboard' component={Dashboard} />
-				<Route exact path='/profile' component={Profile} />
-				<Route exact path='/myProducts' component={MyProducts} />
-				<Route exact path='/addProduct' component={AddProduct} />
+			if (result.data()?.status !== 'active') {
+				present({
+					buttons: [
+						{
+							text: 'Hide',
+							handler: () => {
+								dismiss();
+							},
+						},
+					],
+					message: 'Status Inactive',
+				});
+				auth.signOut();
+				logout();
+			} else {
+				const userData = {
+					uid: user.uid,
+					...result.data(),
+				};
+				login(userData);
+			}
+		} catch (error) {
+			presentCollection({
+				buttons: [{ text: 'Hide', handler: () => dismissCollection() }],
+				message: await translateText(error.message, 'en', 'es'),
+			});
+		}
+	}
 
-				<Route exact path='/chat' component={Chat} />
-				<Route exact path='/myChats' component={MyChats} />
+	useEffect(() => {
+		let Authsubscriber: any = null;
+		Authsubscriber = auth.onAuthStateChanged((user) => {
+			if (user) {
+				authenticateUser(user);
+			} else {
+				logout();
+			}
+			return Authsubscriber;
+		});
+	}, []);
 
-				<Route exact path='/' render={() => <Redirect to='/login' />} />
-			</IonRouterOutlet>
-		</IonReactRouter>
-	</IonApp>
-);
+	return (
+		<IonApp>
+			<IonReactRouter>
+				<IonRouterOutlet>
+					<PublicRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/login'
+						component={Login}
+					/>
+					<PublicRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/signup'
+						component={SignUp}
+					/>
+
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/selectLanguage'
+						component={SelectLanguage}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/welcome'
+						component={Welcome}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/selectCategory'
+						component={SelectCategory}
+					/>
+
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/marketPlace'
+						component={MarketPlace}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/productDetail'
+						component={ProductDetail}
+					/>
+
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/dashboard'
+						component={Dashboard}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/profile'
+						component={Profile}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/myProducts'
+						component={MyProducts}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/addProduct'
+						component={AddProduct}
+					/>
+
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/chat'
+						component={Chat}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/myChats'
+						component={MyChats}
+					/>
+
+					<Route exact path='/' render={() => <Redirect to='/login' />} />
+				</IonRouterOutlet>
+			</IonReactRouter>
+		</IonApp>
+	);
+};
 
 export default App;

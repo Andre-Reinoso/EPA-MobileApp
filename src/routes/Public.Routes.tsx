@@ -8,7 +8,7 @@ const PublicRoute: React.FunctionComponent<any> = ({
 	if (!authenticated) {
 		return <Route {...props} />;
 	}
-	return <Redirect to='/home' />;
+	return <Redirect to='/marketPlace' />;
 };
 
 export default PublicRoute;

@@ -17,6 +17,7 @@ const SignUpTemplate: React.FC = () => {
 		<>
 			<IonRow>
 				<IonCol>
+					<h3 className='fw-bold'>Sign Up</h3>
 					<div className='ion-text-center px-2'>
 						<IonButton
 							onClick={selectBuyerForm}
