@@ -139,7 +139,7 @@ const App: React.FC = () => {
 					<PrivateRoute
 						authenticated={currentUser.auth}
 						exact
-						path='/productDetail'
+						path='/productDetail/:productId'
 						component={ProductDetail}
 					/>
 

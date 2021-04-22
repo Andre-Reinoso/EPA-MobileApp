@@ -1,44 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonCard, IonAvatar, IonCardTitle, IonItem } from '@ionic/react';
+import { getAllLanguages } from './../../services/translate/';
+
+interface langaugeType {
+	iso639_1: string;
+	iso639_2: string;
+	name: string;
+	nativeName: string;
+	flag: string;
+}
 
 const SelectLanguageForm: React.FC = () => {
-	const [selectedLanguage, setSelectecLanguage] = useState('en');
-	let languages = [
-		{
-			iso639_1: 'en',
-			nativeName: 'English',
-			img: 'https://restcountries.eu/data/gbr.svg',
-		},
-		{
-			iso639_1: 'es',
-			nativeName: 'Español',
-			img: 'https://restcountries.eu/data/esp.svg',
-		},
-		{
-			iso639_1: 'ja',
-			nativeName: '日本語 (にほんご)',
-			img: 'https://restcountries.eu/data/jpn.svg',
-		},
-	];
+	const [selectedLanguage, setSelectecLanguage] = useState('es');
+	const [languages, setLanguages] = useState<[langaugeType]>();
+
+	//function getLanguages() {}
+	useEffect(() => {
+		try {
+			getAllLanguages()
+				.then((result) => {
+					setLanguages(result);
+				})
+				.catch((err) => {});
+		} catch (error) {
+			console.log(error);
+		}
+	}, [languages]);
 
 	return (
 		<>
-			{languages.map((language, index) => {
+			{languages?.map(({ flag, iso639_1, nativeName }, index) => {
 				return (
 					<IonCard
 						className='my-3'
-						color={`${
-							selectedLanguage === language.iso639_1 ? 'primary' : 'light'
-						}`}
+						color={`${selectedLanguage === iso639_1 ? 'primary' : 'light'}`}
 						key={index}
 						onClick={() => {
-							setSelectecLanguage(language.iso639_1);
+							setSelectecLanguage(iso639_1);
 						}}>
 						<IonItem color='transparent'>
 							<IonAvatar slot='start'>
-								<img src={`${language.img}`} />
+								<img src={`${flag}`} />
 							</IonAvatar>
-							<IonCardTitle>{language.nativeName}</IonCardTitle>
+							<IonCardTitle>{nativeName}</IonCardTitle>
 						</IonItem>
 					</IonCard>
 				);

@@ -4,11 +4,17 @@ import App from './routes/App.Routes';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { UserProvider } from './context/User.Context';
+import { MarketPlaceTabProvider } from './context/MarketPlaceTab.Context';
+import { MarketPlaceProductChipProvider } from './context/MarketPlaceProductChip.Context';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<UserProvider>
-			<App />
+			<MarketPlaceTabProvider>
+				<MarketPlaceProductChipProvider>
+					<App />
+				</MarketPlaceProductChipProvider>
+			</MarketPlaceTabProvider>
 		</UserProvider>
 	</React.StrictMode>,
 	document.getElementById('root')

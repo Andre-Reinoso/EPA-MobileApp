@@ -1,9 +1,13 @@
 import React from 'react';
+import { DashboardLayout } from '../components/layouts';
+import { DashboardTemplate } from '../components/templates';
 
 const Dashboard: React.FC = () => {
 	return (
 		<>
-			<h1>login</h1>
+			<DashboardLayout>
+				<DashboardTemplate />
+			</DashboardLayout>
 		</>
 	);
 };

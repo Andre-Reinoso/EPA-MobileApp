@@ -4,6 +4,8 @@ import SelectLanguageLayout from './SelectLanguage.Layout';
 import WelcomeLayout from './Welcome.Layout';
 import SelectCategoryLayout from './SelectCategory.Layout';
 import MarketPlaceLayout from './MarketPlace.Layout';
+import ProductDetailLayout from './ProductDetail.Layout';
+import DashboardLayout from './Dashboard.Layout';
 export {
 	LoginLayout,
 	SignUpLayout,
@@ -11,4 +13,6 @@ export {
 	WelcomeLayout,
 	SelectCategoryLayout,
 	MarketPlaceLayout,
+	ProductDetailLayout,
+	DashboardLayout,
 };
