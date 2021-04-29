@@ -31,7 +31,7 @@ const SelectButton = ({
 					onClick={selectFirstButtom}
 					size='small'
 					color={selectedItem === firstButtonTitle ? 'primary' : 'light'}
-					className={`mx-3 ion-button-full-rounded ion-text-capitalize ${
+					className={`mx-1 ion-button-full-rounded ion-text-capitalize ${
 						selectedItem === firstButtonTitle ? 'fw-bold' : 'fw-normal'
 					}`}>
 					<p className='px-4'>{firstButtonTitle}</p>
@@ -40,7 +40,7 @@ const SelectButton = ({
 					onClick={selectSecondButton}
 					size='small'
 					color={selectedItem === secondButtonTitle ? 'primary' : 'light'}
-					className={`mx-3 ion-button-full-rounded ion-text-capitalize ${
+					className={`mx-1 ion-button-full-rounded ion-text-capitalize ${
 						selectedItem === secondButtonTitle ? 'fw-bold' : 'fw-normal'
 					}`}>
 					<p className='px-4'>{secondButtonTitle}</p>

@@ -12,6 +12,7 @@ import { TotalSalesDashboard } from '../modules';
 import { DashboardActionList } from '../elements';
 import { auth } from './../../services/firebase/firebase.config';
 import { powerOutline } from 'ionicons/icons';
+import { logomarket } from '../../utilities/assets';
 const DashboardTemplate: React.FC = () => {
 	return (
 		<>
@@ -23,7 +24,7 @@ const DashboardTemplate: React.FC = () => {
 							height: '100%',
 						}}
 						className='ion-border-radius-sm'>
-						<IonImg src={'https://logodix.com/logo/770948.png'} />
+						<IonImg src={logomarket} />
 					</IonAvatar>
 				</IonCol>
 				<IonCol size='7'>
@@ -118,7 +119,7 @@ const DashboardTemplate: React.FC = () => {
 						auth.signOut();
 					}}>
 					Log out
-					<IonIcon slot="end" icon={powerOutline} />
+					<IonIcon slot='end' icon={powerOutline} />
 				</IonButton>
 			</div>
 		</>

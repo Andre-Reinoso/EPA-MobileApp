@@ -13,7 +13,8 @@ import {
 	IonIcon,
 } from '@ionic/react';
 import { BarTotalSalesProduct, PieTotalSalesProduct } from '../modules';
-import { chevronForwardOutline } from 'ionicons/icons';
+import { cafe, chevronForwardOutline } from 'ionicons/icons';
+import { aceituna, chalina, chocolate1, oliva } from '../../utilities/assets';
 
 const MyProductsTemplate: React.FC = () => {
 	return (
@@ -94,33 +95,28 @@ const MyProductsTemplate: React.FC = () => {
 						{[
 							{
 								title: 'Olive Oil',
-								img:
-									'https://www.perumarketplace.com/cmm/getImage.do?atchFileId=FILE_4e62a6a4-5c2b-45fa-89ae-a50558ef3aec&fileSn=1&thumb=350',
+								img: oliva,
 							},
 							{
 								title: 'Alpaca Scarf - Kero Design',
-								img:
-									'https://www.perumarketplace.com/cmm/getImage.do?atchFileId=FILE_6abbc678-93e1-4402-ac92-a9e0aa01955b&fileSn=6&thumb=350',
+								img: chalina,
 							},
 							{
 								title: 'Black Olives in Brine',
-								img:
-									'https://www.perumarketplace.com/cmm/getImage.do?atchFileId=FILE_9069e6bb-821d-4574-a298-178566aaa15d&fileSn=1&thumb=350',
+								img: aceituna,
 							},
 							{
 								title: 'Chocolate Bar with Milk 39% Cacao 100g - Innato',
-								img:
-									'https://www.perumarketplace.com/cmm/getImage.do?atchFileId=FILE_cda59ffe-bdda-480e-915a-49b3ac4db1db&fileSn=5&thumb=350',
+								img: chocolate1,
 							},
 							{
 								title: 'Premium Toasted Coffee 250g Perene',
-								img:
-									'https://www.perumarketplace.com/cmm/getImage.do?atchFileId=FILE_4566a53a-ad81-4f9c-9ae2-709b7d52674f&fileSn=3&thumb=350',
+								img: cafe,
 							},
 						].map(({ title, img }, i) => {
 							return (
 								<div key={i}>
-									<IonItem >
+									<IonItem>
 										<IonThumbnail
 											slot='start'
 											style={{ width: '65px', height: '65px' }}>
