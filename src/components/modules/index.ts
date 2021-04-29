@@ -11,6 +11,8 @@ import ProductDetailContent from './ProductDetailContent';
 import TotalSalesDashboard from './TotalSalesDashboard';
 import SuggestedProductCarousel from './SuggestedProductCarousel';
 import OtherProductCarousel from './OtherProductCarousel';
+import BarTotalSalesProduct from './BarTotalSalesProduct';
+import PieTotalSalesProduct from './PieTotalSalesProduct';
 
 export {
 	LoginForm,
@@ -26,4 +28,6 @@ export {
 	TotalSalesDashboard,
 	SuggestedProductCarousel,
 	OtherProductCarousel,
+	BarTotalSalesProduct,
+	PieTotalSalesProduct,
 };

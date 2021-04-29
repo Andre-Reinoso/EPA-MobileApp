@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonRow, IonCol, IonText, IonGrid } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-import { DashboardBarChart } from './../elements/';
+import { BarChart } from './../elements/';
 
 interface TotalSalesDashboardType {
 	totalValue: string;
@@ -27,7 +27,7 @@ const TotalSalesDashboard = ({ totalValue ,dashboardBarChartData}: TotalSalesDas
 						</IonCol>
 						<IonCol size='7'>
 							<div className='p-2'>
-								<DashboardBarChart
+								<BarChart
 									data={dashboardBarChartData}
 								/>
 							</div>

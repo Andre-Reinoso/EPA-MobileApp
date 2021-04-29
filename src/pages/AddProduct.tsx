@@ -1,9 +1,13 @@
 import React from 'react';
+import { AddProductLayout } from '../components/layouts';
+import {AddProductTemplate} from '../components/templates/';
 
 const AddProduct: React.FC = () => {
 	return (
 		<>
-			<h1>Add Product</h1>
+			<AddProductLayout>
+				<AddProductTemplate />
+			</AddProductLayout>
 		</>
 	);
 };

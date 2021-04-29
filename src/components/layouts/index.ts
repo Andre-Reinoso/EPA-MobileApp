@@ -6,6 +6,8 @@ import SelectCategoryLayout from './SelectCategory.Layout';
 import MarketPlaceLayout from './MarketPlace.Layout';
 import ProductDetailLayout from './ProductDetail.Layout';
 import DashboardLayout from './Dashboard.Layout';
+import MyProductsLayout from './MyProducts.Layout';
+import AddProductLayout from './AddProduct.Layout';
 export {
 	LoginLayout,
 	SignUpLayout,
@@ -15,4 +17,6 @@ export {
 	MarketPlaceLayout,
 	ProductDetailLayout,
 	DashboardLayout,
+	MyProductsLayout,
+	AddProductLayout,
 };

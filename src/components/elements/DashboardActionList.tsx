@@ -39,7 +39,9 @@ const DashboardActionList = () => {
 				<IonLabel>Profile User/Business</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
-			<IonItem>
+			<IonItem onClick={()=>{
+				history.push("/myProducts")
+			}}>
 				<IonButtons slot='start'>
 					<IonButton
 						style={{
