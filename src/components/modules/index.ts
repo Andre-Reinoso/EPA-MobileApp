@@ -13,6 +13,8 @@ import SuggestedProductCarousel from './SuggestedProductCarousel';
 import OtherProductCarousel from './OtherProductCarousel';
 import BarTotalSalesProduct from './BarTotalSalesProduct';
 import PieTotalSalesProduct from './PieTotalSalesProduct';
+import UserProfileForm from './UserProfileForm';
+import BusinessProfileForm from './BusinessProfileForm';
 
 export {
 	LoginForm,
@@ -30,4 +32,6 @@ export {
 	OtherProductCarousel,
 	BarTotalSalesProduct,
 	PieTotalSalesProduct,
+	UserProfileForm,
+	BusinessProfileForm,
 };

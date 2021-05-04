@@ -7,6 +7,7 @@ import MarketPlaceTemplate from './MarketPlace.Template';
 import ProductDetailTemplate from './ProductDetail.Template';
 import DashboardTemplate from './Dashboard.Template';
 import AddProductTemplate from './AddProduct.Template';
+import ProfileTemplate from './Profile.Template';
 
 export {
 	LoginTemplate,
@@ -18,4 +19,5 @@ export {
 	ProductDetailTemplate,
 	DashboardTemplate,
 	AddProductTemplate,
+	ProfileTemplate,
 };

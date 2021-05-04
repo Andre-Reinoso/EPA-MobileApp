@@ -1,19 +1,5 @@
 import React, { useState } from 'react';
-import {
-	IonRow,
-	IonCol,
-	IonIcon,
-	IonText,
-	IonButton,
-	IonImg,
-	IonAvatar,
-	IonSlides,
-	IonSlide,
-	IonCard,
-	IonGrid,
-	IonCardSubtitle,
-	IonCardHeader,
-} from '@ionic/react';
+import { IonRow, IonCol, IonText } from '@ionic/react';
 import {} from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import {

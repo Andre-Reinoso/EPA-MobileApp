@@ -38,7 +38,12 @@ import { useEffect, useContext, useState } from 'react';
 import { auth, db } from './../services/firebase/firebase.config';
 import { UserContext } from '../context/User.Context';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, useIonToast, IonLoading } from '@ionic/react';
+import {
+	IonApp,
+	IonRouterOutlet,
+	useIonToast,
+	useIonLoading,
+} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import PrivateRoute from './Private.Routes';
 import PublicRoute from './Public.Routes';
@@ -48,9 +53,16 @@ const App: React.FC = () => {
 	const { currentUser, login, logout } = useContext(UserContext);
 	const [present, dismiss] = useIonToast();
 	const [presentCollection, dismissCollection] = useIonToast();
+	const [presentLoading, dismissLoading] = useIonLoading();
 
 	async function authenticateUser(user: any) {
 		try {
+			presentLoading({
+				message: 'Loading ...',
+				translucent: true,
+				spinner: 'bubbles',
+				id: 'loadingSpiner',
+			});
 			const result = await db.collection('users').doc(user.uid).get();
 
 			if (result.data()?.status !== 'active') {
@@ -74,11 +86,13 @@ const App: React.FC = () => {
 				};
 				login(userData);
 			}
+			dismissLoading();
 		} catch (error) {
 			presentCollection({
 				buttons: [{ text: 'Hide', handler: () => dismissCollection() }],
 				message: await translateText(error.message, 'en', 'es'),
 			});
+			dismissLoading();
 		}
 	}
 

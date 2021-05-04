@@ -14,7 +14,6 @@ const SelectLanguageForm: React.FC = () => {
 	const [selectedLanguage, setSelectecLanguage] = useState('es');
 	const [languages, setLanguages] = useState<[langaugeType]>();
 
-	//function getLanguages() {}
 	useEffect(() => {
 		try {
 			getAllLanguages()

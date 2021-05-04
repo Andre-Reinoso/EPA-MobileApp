@@ -1,9 +1,13 @@
 import React from 'react';
+import { ProfileLayout } from '../components/layouts';
+import { ProfileTemplate } from '../components/templates';
 
 const Profile: React.FC = () => {
 	return (
 		<>
-			<h1>Profile</h1>
+			<ProfileLayout>
+				<ProfileTemplate />
+			</ProfileLayout>
 		</>
 	);
 };
