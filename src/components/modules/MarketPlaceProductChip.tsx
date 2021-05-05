@@ -17,9 +17,12 @@ import {
 	bannerHomeUrl,
 } from './../../utilities/assets';
 import { MarketPlaceProductChipContext } from '../../context/MarketPlaceProductChip.Context';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 
 const MarketPlaceProductChip = () => {
 	const { selectedChip, setChip } = useContext(MarketPlaceProductChipContext);
+	const { currentUser } = React.useContext(UserContext);
 
 	return (
 		<>
@@ -61,7 +64,13 @@ const MarketPlaceProductChip = () => {
 											: 'medium'
 									}`}
 									className='fw-bolder'>
-									{'Apparel, Textiles & Accessories'}
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Apparel, Textiles & Accessories'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonLabel>
 							</IonChip>
 						</IonSlide>
@@ -85,7 +94,13 @@ const MarketPlaceProductChip = () => {
 										selectedChip === 'Agriculture & Food' ? 'dark' : 'medium'
 									}`}
 									className='fw-bolder'>
-									{'Agriculture & Food'}
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Agriculture & Food'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonLabel>
 							</IonChip>
 						</IonSlide>
@@ -113,7 +128,13 @@ const MarketPlaceProductChip = () => {
 											: 'medium'
 									}`}
 									className='fw-bolder'>
-									{'Home, Lights & Construction'}
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Home, Lights & Construction'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonLabel>
 							</IonChip>
 						</IonSlide>

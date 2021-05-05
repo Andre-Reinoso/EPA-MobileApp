@@ -9,7 +9,8 @@ import {
 	IonCardSubtitle,
 	IonText,
 } from '@ionic/react';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 interface ProductType {
 	image: string;
 	title: string;
@@ -21,6 +22,8 @@ interface SuggestedProductCarouselType {
 }
 
 const ProductCarousel = ({ products }: SuggestedProductCarouselType) => {
+	const { currentUser } = React.useContext(UserContext);
+
 	return (
 		<>
 			<IonSlides
@@ -49,7 +52,15 @@ const ProductCarousel = ({ products }: SuggestedProductCarouselType) => {
 
 								<IonCardHeader>
 									<IonCardSubtitle className='fw-bolder ion-text-left'>
-										<IonText color='dark'>{title.substring(0, 22)}...</IonText>
+										<IonText color='dark'>
+											<Trasnlator
+												from='en'
+												to={currentUser.data.preferredLanguage}
+												text={title.substring(0, 22)}
+												returnText={true}
+												onTextTranslated={() => {}}
+											/>
+										</IonText>
 
 										<IonText
 											color='primary'

@@ -13,7 +13,12 @@ import { DashboardActionList } from '../elements';
 import { auth } from './../../services/firebase/firebase.config';
 import { powerOutline } from 'ionicons/icons';
 import { logomarket } from '../../utilities/assets';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
+
 const DashboardTemplate: React.FC = () => {
+	const { currentUser } = React.useContext(UserContext);
+
 	return (
 		<>
 			<IonRow>
@@ -29,15 +34,38 @@ const DashboardTemplate: React.FC = () => {
 				</IonCol>
 				<IonCol size='7'>
 					<div className='ms-2'>
-						<h3 className='fw-bolder my-3'>Lorem ipsum</h3>
+						<h3 className='fw-bolder my-3'>
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='example company or person'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
+						</h3>
 						<IonText className='my-3' color='medium'>
-							Ruc: 515131321984
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Ruc'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>{' '}
+							:515131321984
 						</IonText>
 						<IonButton
 							size='small'
 							color='primary'
 							className='my-3 ion-button-full-rounded ion-text-capitalize fw-bold'>
-							<p className='px-4'>Seller</p>
+							<p className='px-4'>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Seller'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</p>
 						</IonButton>
 					</div>
 				</IonCol>
@@ -49,7 +77,15 @@ const DashboardTemplate: React.FC = () => {
 							100
 						</IonText>
 						<br />
-						<IonText color='medium'>Lorem ipso</IonText>
+						<IonText color='medium'>
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='CantidadF'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
+						</IonText>
 					</div>
 				</IonCol>
 				<IonCol>
@@ -58,7 +94,15 @@ const DashboardTemplate: React.FC = () => {
 							350
 						</IonText>
 						<br />
-						<IonText color='medium'>Lorem ipso</IonText>
+						<IonText color='medium'>
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Cantidad'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
+						</IonText>
 					</div>
 				</IonCol>
 				<IonCol>
@@ -67,7 +111,15 @@ const DashboardTemplate: React.FC = () => {
 							250
 						</IonText>
 						<br />
-						<IonText color='medium'>Lorem ipso</IonText>
+						<IonText color='medium'>
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Cantidad'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
+						</IonText>
 					</div>
 				</IonCol>
 			</IonRow>
@@ -118,7 +170,13 @@ const DashboardTemplate: React.FC = () => {
 					onClick={() => {
 						auth.signOut();
 					}}>
-					Log out
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Log out'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
 					<IonIcon slot='end' icon={powerOutline} />
 				</IonButton>
 			</div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	IonPage,
 	IonContent,
@@ -12,8 +12,12 @@ import {
 	IonIcon,
 } from '@ionic/react';
 import { chevronBackOutline, saveOutline } from 'ionicons/icons';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 
 const AddProductLayout: React.FC = ({ children }) => {
+	const { currentUser } = useContext(UserContext);
+
 	return (
 		<>
 			<IonPage>
@@ -36,7 +40,13 @@ const AddProductLayout: React.FC = ({ children }) => {
 								</IonButton>
 							</IonButtons>
 							<IonTitle size='large' className='ion-text-center'>
-								Add Product
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Add Product'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonTitle>
 						</IonToolbar>
 					</IonHeader>

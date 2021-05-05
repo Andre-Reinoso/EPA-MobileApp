@@ -8,6 +8,8 @@ import ProductDetailTemplate from './ProductDetail.Template';
 import DashboardTemplate from './Dashboard.Template';
 import AddProductTemplate from './AddProduct.Template';
 import ProfileTemplate from './Profile.Template';
+import MyChatsTemplate from './MyChats.Template';
+import ChatTemplate from './Chat.Template';
 
 export {
 	LoginTemplate,
@@ -20,4 +22,6 @@ export {
 	DashboardTemplate,
 	AddProductTemplate,
 	ProfileTemplate,
+	MyChatsTemplate,
+	ChatTemplate,
 };

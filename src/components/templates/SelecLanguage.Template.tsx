@@ -16,20 +16,6 @@ const SelectLanguageTemplate: React.FC = () => {
 				<IonCol>
 					<h1>Select your language:</h1>
 					<SelectLanguageForm />
-					<div className='ion-text-center'>
-						<IonButton
-							onClick={routeToWelcome}
-							className='ion-text-capitalize'
-							fill='clear'
-							style={{
-								marginTop: '15%',
-								fontWeight: 'bold',
-								fontSize: '18px',
-							}}>
-							Continue
-							<IonIcon slot='end' icon={arrowForwardOutline} />
-						</IonButton>
-					</div>
 				</IonCol>
 			</IonRow>
 		</>

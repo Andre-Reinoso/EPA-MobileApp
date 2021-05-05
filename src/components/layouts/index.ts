@@ -9,6 +9,9 @@ import DashboardLayout from './Dashboard.Layout';
 import MyProductsLayout from './MyProducts.Layout';
 import AddProductLayout from './AddProduct.Layout';
 import ProfileLayout from './Profile.Layout';
+import MyChatsLayout from './MyChats.Layout';
+import ChatLayout from './Chat.Layout';
+
 export {
 	LoginLayout,
 	SignUpLayout,
@@ -21,4 +24,6 @@ export {
 	MyProductsLayout,
 	AddProductLayout,
 	ProfileLayout,
+	MyChatsLayout,
+	ChatLayout,
 };

@@ -13,8 +13,11 @@ import {
 } from '@ionic/react';
 import { chevronBackOutline, addOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 const MyProductsLayout: React.FC = ({ children }) => {
+	const { currentUser } = React.useContext(UserContext);
+
 	const history = useHistory();
 	return (
 		<>
@@ -37,7 +40,13 @@ const MyProductsLayout: React.FC = ({ children }) => {
 								</IonButton>
 							</IonButtons>
 							<IonTitle size='large' className='ion-text-center'>
-								Products
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Products'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonTitle>
 						</IonToolbar>
 					</IonHeader>

@@ -13,8 +13,11 @@ import {
 	bannerTextilUrl,
 	bannerHomeUrl,
 } from './../../utilities/assets';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
 const SelectCategoryForm: React.FC = () => {
+	const { currentUser } = React.useContext(UserContext);
+
 	let categories = [
 		{
 			id: 1,
@@ -43,7 +46,13 @@ const SelectCategoryForm: React.FC = () => {
 						</IonThumbnail>
 						<IonCardHeader>
 							<IonCardTitle className='fw-bolter' style={{ fontSize: '18px' }}>
-								{name}
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text={name}
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 								<IonIcon
 									size='small'
 									color='primary'

@@ -16,9 +16,11 @@ import {
 	paperPlaneOutline,
 } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './';
 const DashboardActionList = () => {
 	const history = useHistory();
+	const { currentUser } = React.useContext(UserContext);
 
 	return (
 		<IonList>
@@ -39,7 +41,15 @@ const DashboardActionList = () => {
 					</IonButton>
 				</IonButtons>
 
-				<IonLabel>Profile User/Business</IonLabel>
+				<IonLabel>
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Profile User/Business'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
+				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 			<IonItem
@@ -59,7 +69,15 @@ const DashboardActionList = () => {
 					</IonButton>
 				</IonButtons>
 
-				<IonLabel>Products</IonLabel>
+				<IonLabel>
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Products'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
+				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 			<IonItem
@@ -79,7 +97,15 @@ const DashboardActionList = () => {
 					</IonButton>
 				</IonButtons>
 
-				<IonLabel>Language</IonLabel>
+				<IonLabel>
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Language'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
+				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 
@@ -100,11 +126,22 @@ const DashboardActionList = () => {
 					</IonButton>
 				</IonButtons>
 
-				<IonLabel>Preferred categories</IonLabel>
+				<IonLabel>
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Preferred categories'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
+				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 
-			<IonItem>
+			<IonItem
+				onClick={() => {
+					history.push('/myChats');
+				}}>
 				<IonButtons slot='start'>
 					<IonButton
 						style={{
@@ -118,7 +155,15 @@ const DashboardActionList = () => {
 					</IonButton>
 				</IonButtons>
 
-				<IonLabel>Chat</IonLabel>
+				<IonLabel>
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='My Chats'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
+				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 		</IonList>

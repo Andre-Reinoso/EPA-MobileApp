@@ -16,8 +16,12 @@ import { cubeOutline, imageOutline, save } from 'ionicons/icons';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw, EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
 
 const AddProductTemplate: React.FC = () => {
+	const { currentUser } = React.useContext(UserContext);
+
 	const [editorState, setEditorState] = useState<any>(
 		EditorState.createEmpty()
 	);
@@ -37,35 +41,85 @@ const AddProductTemplate: React.FC = () => {
 				<IonCol>
 					<IonList className='px-2'>
 						<IonItem>
-							<h3>Add Product</h3>
+							<h3>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Add Product'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</h3>
 						</IonItem>
 						<IonItem className='mt-3'>
-							<IonLabel position='floating'>Name</IonLabel>
+							<IonLabel position='floating'>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Name'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</IonLabel>
 							<IonInput required type='text'></IonInput>
 						</IonItem>
 
 						<IonItem className='mt-3'>
-							<IonLabel>Category</IonLabel>
+							<IonLabel>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Category'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</IonLabel>
 							<IonSelect interface='action-sheet' cancelText='Dismiss'>
 								<IonSelectOption value='Agriculture & Food'>
-									Agriculture & Food
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Agriculture & Food'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonSelectOption>
 								<IonSelectOption value='Apparel, Textiles & Accessories'>
-									Apparel, Textiles & Accessories
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Apparel, Textiles & Accessories'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonSelectOption>
 								<IonSelectOption value='Home, Lights & Construction'>
-									Home, Lights & Construction
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Home, Lights & Construction'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonSelectOption>
 							</IonSelect>
 						</IonItem>
 
 						<IonItem className='mt-3'>
-							<IonLabel position='floating'>Description</IonLabel>
+							<IonLabel position='floating'>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Description'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</IonLabel>
 							<IonTextarea clearOnEdit={true} rows={2} cols={20}></IonTextarea>
 						</IonItem>
 
 						<IonItem className='mt-3'>
-							<Editor	
+							<Editor
 								editorState={editorState}
 								toolbarClassName='toolbarClassName'
 								wrapperClassName='wrapperClassName'
@@ -122,7 +176,13 @@ const AddProductTemplate: React.FC = () => {
 								onChange={openInputFile}
 							/>
 							<IonIcon slot='start' icon={imageOutline} />
-							Choose Images
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Choose Images'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
 						</IonButton>
 						<IonItem>
 							{imageViewer && (
@@ -138,7 +198,13 @@ const AddProductTemplate: React.FC = () => {
 						<IonButton
 							expand='block'
 							className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
-							Save
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Save'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
 							<IonIcon slot='end' icon={save} />
 						</IonButton>
 					</IonList>

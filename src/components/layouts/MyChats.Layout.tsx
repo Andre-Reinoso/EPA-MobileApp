@@ -15,10 +15,10 @@ import { chevronBackOutline, addOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../context/User.Context';
 import { Trasnlator } from './../elements/';
-const ProfileLayout: React.FC = ({ children }) => {
+const MyChatLayout: React.FC = ({ children }) => {
+	const history = useHistory();
 	const { currentUser } = React.useContext(UserContext);
 
-	const history = useHistory();
 	return (
 		<>
 			<IonPage>
@@ -27,7 +27,7 @@ const ProfileLayout: React.FC = ({ children }) => {
 						<IonToolbar color='primary'>
 							<IonButtons slot='start'>
 								<IonBackButton
-									defaultHref='/marketPlace'
+									defaultHref='/dashboard'
 									icon={chevronBackOutline}
 								/>
 							</IonButtons>
@@ -40,7 +40,7 @@ const ProfileLayout: React.FC = ({ children }) => {
 								<Trasnlator
 									from='en'
 									to={currentUser.data.preferredLanguage}
-									text='Profile'
+									text='My Chats'
 									returnText={true}
 									onTextTranslated={() => {}}
 								/>
@@ -54,4 +54,4 @@ const ProfileLayout: React.FC = ({ children }) => {
 	);
 };
 
-export default ProfileLayout;
+export default MyChatLayout;

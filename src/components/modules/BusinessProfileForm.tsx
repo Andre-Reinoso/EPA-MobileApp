@@ -24,6 +24,8 @@ import { getCountries, getRegionsByCode } from '../../services/epaApi';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw, EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 
 interface selectedCountryType {
 	nativeName: string;
@@ -37,6 +39,8 @@ interface selectedRegionType {
 }
 
 const BusinessProfileForm: React.FC = () => {
+	const { currentUser } = React.useContext(UserContext);
+
 	const [showModalCountries, setShowModalCountries] = useState<boolean>(false);
 	const [countries, setCountries] = useState<Array<any>>([]);
 	const [selectedCountry, setSelectecCountry] = useState<selectedCountryType>();
@@ -96,7 +100,13 @@ const BusinessProfileForm: React.FC = () => {
 									onClick={() => {
 										setShowModalCountries(false);
 									}}>
-									Save
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Save'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonButton>
 							</IonButtons>
 						</IonToolbar>
@@ -138,7 +148,13 @@ const BusinessProfileForm: React.FC = () => {
 									onClick={() => {
 										setShowModalregions(false);
 									}}>
-									Save
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Save'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonButton>
 							</IonButtons>
 						</IonToolbar>
@@ -167,23 +183,55 @@ const BusinessProfileForm: React.FC = () => {
 
 			<IonList className='px-2' lines='full'>
 				<IonItem className='mt-3'>
-					<IonLabel position='floating'>Company Name</IonLabel>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Company Name'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='text'></IonInput>
 					<IonIcon slot='start' icon={businessOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
-					<IonLabel position='floating'>Ruc</IonLabel>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Ruc'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='number'></IonInput>
 					<IonIcon slot='start' icon={businessOutline} />
 				</IonItem>
 
 				<IonItem className='mt-3'>
-					<IonLabel position='stacked'>Year Stablished</IonLabel>
+					<IonLabel position='stacked'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Year Stablished'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='date'></IonInput>
 					<IonIcon slot='start' icon={calendarOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
-					<IonLabel position='stacked'>Foundation Year</IonLabel>
+					<IonLabel position='stacked'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Foundation Year'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='date'></IonInput>
 					<IonIcon slot='start' icon={calendarOutline} />
 				</IonItem>
@@ -230,7 +278,13 @@ const BusinessProfileForm: React.FC = () => {
 
 				<IonItem className='mt-3'>
 					<IonLabel position='stacked' className='mb-2'>
-						Description
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Description'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
 					</IonLabel>
 					<Editor
 						editorState={editorState}
@@ -276,7 +330,13 @@ const BusinessProfileForm: React.FC = () => {
 				<IonButton
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
-					Save
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Save'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
 				</IonButton>
 			</IonList>
 		</>

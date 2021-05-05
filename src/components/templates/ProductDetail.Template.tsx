@@ -26,13 +26,15 @@ import {
 	tasas,
 	yuyay,
 } from '../../utilities/assets';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
 interface ProductDetailType {
 	productId: string;
 }
 
 const ProductDetail = ({ productId }: ProductDetailType) => {
 	const history = useHistory();
+	const { currentUser } = React.useContext(UserContext);
 
 	const [selectedContent, setSelectedContent] = useState('Information');
 
@@ -56,7 +58,14 @@ const ProductDetail = ({ productId }: ProductDetailType) => {
 				<IonCol className='px-4'>
 					<div>
 						<p className='fw-bolder ion-text-size-lg'>
-							Chocolate Bar with Milk 39% Cacao 100g - Innato
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Chocolate Bar with Milk 39% Cacao 100g - Innato'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
+
 							<IonText color='primary' className='fw-bolder ion-float-right'>
 								$30
 							</IonText>

@@ -1,6 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { IonCard, IonAvatar, IonCardTitle, IonItem } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+	IonCard,
+	IonAvatar,
+	IonCardTitle,
+	IonItem,
+	IonButton,
+	IonIcon,
+} from '@ionic/react';
 import { getAllLanguages } from './../../services/translate/';
+import { Plugins } from '@capacitor/core';
+import { db } from '../../services/firebase/firebase.config';
+import { UserContext } from '../../context/User.Context';
+import { useHistory } from 'react-router-dom';
+import { arrowForwardOutline } from 'ionicons/icons';
 
 interface langaugeType {
 	iso639_1: string;
@@ -11,16 +23,28 @@ interface langaugeType {
 }
 
 const SelectLanguageForm: React.FC = () => {
-	const [selectedLanguage, setSelectecLanguage] = useState('es');
+	const { currentUser } = useContext(UserContext);
+
+	const [selectedLanguage, setSelectecLanguage] = useState(
+		currentUser.data.preferredLanguage
+	);
 	const [languages, setLanguages] = useState<[langaugeType]>();
+	const history = useHistory();
+
+	function routeToWelcome() {
+		db.collection('users')
+			.doc(currentUser.data.uid)
+			.update({ preferredLanguage: selectedLanguage })
+			.then((result) => {
+				history.push('/welcome');
+			});
+	}
 
 	useEffect(() => {
 		try {
-			getAllLanguages()
-				.then((result) => {
-					setLanguages(result);
-				})
-				.catch((err) => {});
+			getAllLanguages().then((result) => {
+				setLanguages(result);
+			});
 		} catch (error) {
 			console.log(error);
 		}
@@ -46,6 +70,20 @@ const SelectLanguageForm: React.FC = () => {
 					</IonCard>
 				);
 			})}
+			<div className='ion-text-center'>
+				<IonButton
+					onClick={routeToWelcome}
+					className='ion-text-capitalize'
+					fill='clear'
+					style={{
+						marginTop: '15%',
+						fontWeight: 'bold',
+						fontSize: '18px',
+					}}>
+					Continue
+					<IonIcon slot='end' icon={arrowForwardOutline} />
+				</IonButton>
+			</div>
 		</>
 	);
 };

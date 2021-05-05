@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { IonGrid, IonCol, IonRow, IonText } from '@ionic/react';
 import { MarketPlaceTabContext } from './../../context/MarketPlaceTab.Context';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 const MarketPlaceTab = () => {
 	const { selectedTab, setTab } = useContext(MarketPlaceTabContext);
+	const { currentUser } = React.useContext(UserContext);
 
 	return (
 		<>
@@ -21,7 +23,13 @@ const MarketPlaceTab = () => {
 							}  ion-text-center  m-0`}>
 							<IonText
 								color={`${selectedTab === 'Products' ? 'dark' : 'medium'}`}>
-								Products
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Products'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonText>
 						</p>
 					</IonCol>
@@ -37,7 +45,13 @@ const MarketPlaceTab = () => {
 							}  ion-text-center  m-0`}>
 							<IonText
 								color={`${selectedTab === 'Favorites' ? 'dark' : 'medium'}`}>
-								Favorites
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Favorites'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonText>
 						</p>
 					</IonCol>
@@ -53,7 +67,13 @@ const MarketPlaceTab = () => {
 							}  ion-text-center  m-0`}>
 							<IonText
 								color={`${selectedTab === 'New Products' ? 'dark' : 'medium'}`}>
-								New Products
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='New Products'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonText>
 						</p>
 					</IonCol>

@@ -3,9 +3,12 @@ import { SelectCategoryForm } from '../modules';
 import { IonRow, IonCol, IonButton, IonIcon } from '@ionic/react';
 import { arrowForwardOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
 const SelectCategoryTemplate: React.FC = () => {
 	const history = useHistory();
+	const { currentUser } = React.useContext(UserContext);
+
 	function routeToMarketPlace() {
 		history.push('/marketPlace');
 	}
@@ -14,7 +17,15 @@ const SelectCategoryTemplate: React.FC = () => {
 		<>
 			<IonRow>
 				<IonCol>
-					<h1>Select your preferred categories:</h1>
+					<h1>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Select your preferred categories:'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</h1>
 					<SelectCategoryForm />
 					<div className='ion-text-center'>
 						<IonButton
@@ -24,7 +35,14 @@ const SelectCategoryTemplate: React.FC = () => {
 							style={{
 								fontSize: '18px',
 							}}>
-							Continue
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Continue'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
+
 							<IonIcon slot='end' icon={arrowForwardOutline} />
 						</IonButton>
 					</div>

@@ -76,6 +76,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.7",
+    "@ionic/lab": "3.2.10",
     "@types/markdown-draft-js": "^2.2.2",
     "@types/react-draft-wysiwyg": "^1.13.2",
     "@types/uuid": "^8.3.0"

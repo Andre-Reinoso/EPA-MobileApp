@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-	IonPage,
-	IonContent,
-	IonGrid,
-} from '@ionic/react';
+import { IonPage, IonContent, IonGrid } from '@ionic/react';
 import { bannerLlamasUrl } from '../../utilities/assets';
 
 const LoginLayout: React.FC = ({ children }) => {
+
+
 	return (
 		<>
 			<IonPage>

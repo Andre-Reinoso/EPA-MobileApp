@@ -1,9 +1,13 @@
 import React from 'react';
+import { MyChatsLayout } from '../components/layouts';
+import { MyChatsTemplate } from '../components/templates';
 
 const MyChats: React.FC = () => {
 	return (
 		<>
-			<h1>My Chats</h1>
+			<MyChatsLayout>
+				<MyChatsTemplate />
+			</MyChatsLayout>
 		</>
 	);
 };

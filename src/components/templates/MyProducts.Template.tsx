@@ -15,8 +15,11 @@ import {
 import { BarTotalSalesProduct, PieTotalSalesProduct } from '../modules';
 import { cafe, chevronForwardOutline } from 'ionicons/icons';
 import { aceituna, chalina, chocolate1, oliva } from '../../utilities/assets';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
 const MyProductsTemplate: React.FC = () => {
+	const { currentUser } = React.useContext(UserContext);
+
 	return (
 		<>
 			<IonRow>
@@ -90,7 +93,15 @@ const MyProductsTemplate: React.FC = () => {
 				<IonCol>
 					<IonList>
 						<IonItem>
-							<h3>My Products</h3>
+							<h3>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='My Products'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</h3>
 						</IonItem>
 						{[
 							{
@@ -123,7 +134,15 @@ const MyProductsTemplate: React.FC = () => {
 											<IonImg className='ion-border-radius-sm' src={img} />
 										</IonThumbnail>
 										<IonLabel>
-											<h3>{title}</h3>
+											<h3>
+												<Trasnlator
+													from='en'
+													to={currentUser.data.preferredLanguage}
+													text={title}
+													returnText={true}
+													onTextTranslated={() => {}}
+												/>
+											</h3>
 										</IonLabel>
 										<IonIcon icon={chevronForwardOutline} />
 									</IonItem>

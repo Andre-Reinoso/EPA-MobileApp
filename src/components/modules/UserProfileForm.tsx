@@ -21,7 +21,8 @@ import {
 	golfOutline,
 } from 'ionicons/icons';
 import { getCountries, getRegionsByCode } from '../../services/epaApi';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 interface selectedCountryType {
 	nativeName: string;
 	flag: string;
@@ -34,6 +35,8 @@ interface selectedRegionType {
 }
 
 const UserProfileForm: React.FC = () => {
+	const { currentUser } = React.useContext(UserContext);
+
 	const [showModalCountries, setShowModalCountries] = useState<boolean>(false);
 	const [countries, setCountries] = useState<Array<any>>([]);
 	const [selectedCountry, setSelectecCountry] = useState<selectedCountryType>();
@@ -86,7 +89,13 @@ const UserProfileForm: React.FC = () => {
 									onClick={() => {
 										setShowModalCountries(false);
 									}}>
-									Save
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Save'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonButton>
 							</IonButtons>
 						</IonToolbar>
@@ -128,7 +137,13 @@ const UserProfileForm: React.FC = () => {
 									onClick={() => {
 										setShowModalregions(false);
 									}}>
-									Save
+									<Trasnlator
+										from='en'
+										to={currentUser.data.preferredLanguage}
+										text='Save'
+										returnText={true}
+										onTextTranslated={() => {}}
+									/>
 								</IonButton>
 							</IonButtons>
 						</IonToolbar>
@@ -157,23 +172,55 @@ const UserProfileForm: React.FC = () => {
 
 			<IonList className='px-2' lines='full'>
 				<IonItem className='mt-3'>
-					<IonLabel position='floating'>First Name</IonLabel>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='First Name'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='text'></IonInput>
 					<IonIcon slot='start' icon={personOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
-					<IonLabel position='floating'>Last Name</IonLabel>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Last Name'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='text'></IonInput>
 					<IonIcon slot='start' icon={personOutline} />
 				</IonItem>
 
 				<IonItem className='mt-3'>
-					<IonLabel position='floating'>Email</IonLabel>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Email'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='email'></IonInput>
 					<IonIcon slot='start' icon={mailOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
-					<IonLabel position='floating'>Phone Number</IonLabel>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage}
+							text='Phone Number'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
 					<IonInput required type='tel'></IonInput>
 					<IonIcon slot='start' icon={phonePortraitOutline} />
 				</IonItem>
@@ -196,7 +243,13 @@ const UserProfileForm: React.FC = () => {
 								{selectedCountry?.nativeName}
 							</>
 						) : (
-							'Select Country'
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Select Country'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
 						)}
 					</IonButton>
 					<IonIcon slot='start' icon={earthOutline} />
@@ -209,10 +262,16 @@ const UserProfileForm: React.FC = () => {
 						expand='full'
 						fill='clear'
 						onClick={() => setShowModalregions(true)}>
-						{selectedRegion?.name  ? (
+						{selectedRegion?.name ? (
 							<>{selectedRegion?.name}</>
 						) : (
-							'Select Region'
+							<Trasnlator
+								from='en'
+								to={currentUser.data.preferredLanguage}
+								text='Select Region'
+								returnText={true}
+								onTextTranslated={() => {}}
+							/>
 						)}
 					</IonButton>
 					<IonIcon slot='start' icon={golfOutline} />
@@ -221,7 +280,13 @@ const UserProfileForm: React.FC = () => {
 				<IonButton
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
-					Save
+					<Trasnlator
+						from='en'
+						to={currentUser.data.preferredLanguage}
+						text='Save'
+						returnText={true}
+						onTextTranslated={() => {}}
+					/>
 				</IonButton>
 			</IonList>
 		</>

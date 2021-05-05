@@ -12,8 +12,11 @@ import {
 	IonBackButton,
 } from '@ionic/react';
 import { chevronBackOutline, heartOutline } from 'ionicons/icons';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 const ProductDetailLayout: React.FC = ({ children }) => {
+	const { currentUser } = React.useContext(UserContext);
+
 	return (
 		<>
 			<IonPage>
@@ -32,7 +35,13 @@ const ProductDetailLayout: React.FC = ({ children }) => {
 								</IonButton>
 							</IonButtons>
 							<IonTitle size='large' className='ion-text-center'>
-								Detail
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Product Detail'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonTitle>
 						</IonToolbar>
 					</IonHeader>

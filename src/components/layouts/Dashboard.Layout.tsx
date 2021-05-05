@@ -12,8 +12,12 @@ import {
 	IonIcon,
 } from '@ionic/react';
 import { chevronBackOutline, heartOutline } from 'ionicons/icons';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 
 const DashboardLayout: React.FC = ({ children }) => {
+	const { currentUser } = React.useContext(UserContext);
+
 	return (
 		<>
 			<IonPage>
@@ -32,7 +36,13 @@ const DashboardLayout: React.FC = ({ children }) => {
 								</IonButton>
 							</IonButtons>
 							<IonTitle size='large' className='ion-text-center'>
-								Dashboard
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Dashboard'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonTitle>
 						</IonToolbar>
 					</IonHeader>

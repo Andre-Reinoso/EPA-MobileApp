@@ -16,9 +16,13 @@ import {
 import { personCircleOutline, heartOutline } from 'ionicons/icons';
 import { logo450 } from './../../utilities/assets';
 import { useHistory } from 'react-router';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 
 const MarketPlaceLayout: React.FC = ({ children }) => {
 	const [searchText, setSearchText] = useState('');
+	const { currentUser } = React.useContext(UserContext);
+
 	const history = useHistory();
 	return (
 		<>
@@ -40,7 +44,13 @@ const MarketPlaceLayout: React.FC = ({ children }) => {
 								</IonButton>
 							</IonButtons>
 							<IonTitle size='large' className='ion-text-center'>
-								Market Place
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage}
+									text='Market Place'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
 							</IonTitle>
 						</IonToolbar>
 					</IonHeader>

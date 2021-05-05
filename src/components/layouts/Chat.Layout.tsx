@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	IonPage,
 	IonContent,
@@ -15,8 +15,8 @@ import { chevronBackOutline, addOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../context/User.Context';
 import { Trasnlator } from './../elements/';
-const ProfileLayout: React.FC = ({ children }) => {
-	const { currentUser } = React.useContext(UserContext);
+const ChatLayout: React.FC = ({ children }) => {
+	const { currentUser } = useContext(UserContext);
 
 	const history = useHistory();
 	return (
@@ -27,7 +27,7 @@ const ProfileLayout: React.FC = ({ children }) => {
 						<IonToolbar color='primary'>
 							<IonButtons slot='start'>
 								<IonBackButton
-									defaultHref='/marketPlace'
+									defaultHref='/dashboard'
 									icon={chevronBackOutline}
 								/>
 							</IonButtons>
@@ -40,7 +40,7 @@ const ProfileLayout: React.FC = ({ children }) => {
 								<Trasnlator
 									from='en'
 									to={currentUser.data.preferredLanguage}
-									text='Profile'
+									text='Chat'
 									returnText={true}
 									onTextTranslated={() => {}}
 								/>
@@ -54,4 +54,4 @@ const ProfileLayout: React.FC = ({ children }) => {
 	);
 };
 
-export default ProfileLayout;
+export default ChatLayout;

@@ -9,7 +9,8 @@ import {
 	IonCol,
 	IonText,
 } from '@ionic/react';
-
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements/';
 interface ProductType {
 	image: string;
 	title: string;
@@ -22,6 +23,8 @@ interface ProductCarouselType {
 }
 
 const OtherProductCarousel = ({ products }: ProductCarouselType) => {
+	const { currentUser } = React.useContext(UserContext);
+
 	return (
 		<>
 			<IonSlides
@@ -53,10 +56,22 @@ const OtherProductCarousel = ({ products }: ProductCarouselType) => {
 									<IonCol size='8'>
 										<div className='ion-text-left p-0'>
 											<h6 className='fw-bolder m-0'>
-												{title.substring(0, 22)}
+												<Trasnlator
+													from='en'
+													to={currentUser.data.preferredLanguage}
+													text={title.substring(0, 22)}
+													returnText={true}
+													onTextTranslated={() => {}}
+												/>
 											</h6>
 											<p className='ion-text-size-xs'>
-												{description.substring(0, 35)}
+												<Trasnlator
+													from='en'
+													to={currentUser.data.preferredLanguage}
+													text={description.substring(0, 35)}
+													returnText={true}
+													onTextTranslated={() => {}}
+												/>
 											</p>
 											<p className=''>
 												<IonText color='primary' className='fw-bolder '>
