@@ -40,7 +40,7 @@ const MyChatsTemplate: React.FC = () => {
 							<h4>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='Messages'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -58,7 +58,7 @@ const MyChatsTemplate: React.FC = () => {
 								<h2 className='fw-bolder'>
 									<Trasnlator
 										from='en'
-										to={currentUser.data.preferredLanguage}
+										to={currentUser.data.preferredLanguage|| 'en'}
 										text='example company or person'
 										returnText={true}
 										onTextTranslated={() => {}}
@@ -68,7 +68,7 @@ const MyChatsTemplate: React.FC = () => {
 									<IonText>
 										<Trasnlator
 											from='en'
-											to={currentUser.data.preferredLanguage}
+											to={currentUser.data.preferredLanguage|| 'en'}
 											text='This is an example message'
 											returnText={true}
 											onTextTranslated={() => {}}
@@ -88,7 +88,7 @@ const MyChatsTemplate: React.FC = () => {
 								<h2 className='fw-bolder'>
 									<Trasnlator
 										from='en'
-										to={currentUser.data.preferredLanguage}
+										to={currentUser.data.preferredLanguage|| 'en'}
 										text='example company or person'
 										returnText={true}
 										onTextTranslated={() => {}}
@@ -99,7 +99,7 @@ const MyChatsTemplate: React.FC = () => {
 									<IonText>
 										<Trasnlator
 											from='en'
-											to={currentUser.data.preferredLanguage}
+											to={currentUser.data.preferredLanguage|| 'en'}
 											text='This is an example message'
 											returnText={true}
 											onTextTranslated={() => {}}
@@ -119,7 +119,7 @@ const MyChatsTemplate: React.FC = () => {
 								<h2 className='fw-bolder'>
 									<Trasnlator
 										from='en'
-										to={currentUser.data.preferredLanguage}
+										to={currentUser.data.preferredLanguage|| 'en'}
 										text='example company or person'
 										returnText={true}
 										onTextTranslated={() => {}}
@@ -129,7 +129,7 @@ const MyChatsTemplate: React.FC = () => {
 									<IonText>
 										<Trasnlator
 											from='en'
-											to={currentUser.data.preferredLanguage}
+											to={currentUser.data.preferredLanguage|| 'en'}
 											text='This is an example message'
 											returnText={true}
 											onTextTranslated={() => {}}
@@ -149,7 +149,7 @@ const MyChatsTemplate: React.FC = () => {
 								<h2 className='fw-bolder'>
 									<Trasnlator
 										from='en'
-										to={currentUser.data.preferredLanguage}
+										to={currentUser.data.preferredLanguage|| 'en'}
 										text='example company or person'
 										returnText={true}
 										onTextTranslated={() => {}}
@@ -159,7 +159,7 @@ const MyChatsTemplate: React.FC = () => {
 									<IonText>
 										<Trasnlator
 											from='en'
-											to={currentUser.data.preferredLanguage}
+											to={currentUser.data.preferredLanguage|| 'en'}
 											text='This is an example message'
 											returnText={true}
 											onTextTranslated={() => {}}

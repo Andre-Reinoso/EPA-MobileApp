@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonRow, IonCol, IonText } from '@ionic/react';
 import {} from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import {
 	SelectButton,
 	ProductCarousel,
@@ -28,29 +28,35 @@ import {
 } from '../../utilities/assets';
 import { UserContext } from '../../context/User.Context';
 import { Trasnlator } from './../elements';
+import { db } from '../../services/firebase/firebase.config';
 interface ProductDetailType {
 	productId: string;
 }
 
 const ProductDetail = ({ productId }: ProductDetailType) => {
-	const history = useHistory();
 	const { currentUser } = React.useContext(UserContext);
-
 	const [selectedContent, setSelectedContent] = useState('Information');
+
+	const [productDetailData, setProductDetailData] = useState<any>();
+	useEffect(() => {
+		db.collection('products')
+			.doc(productId)
+			.get()
+			.then((product) => {
+				
+				setProductDetailData(product.data());
+			})
+			.catch((err) => {});
+		return () => {};
+	}, []);
 
 	return (
 		<>
 			<ProductCarousel
 				products={[
 					{
-						image: chocolate3,
-					},
-					{
-						image: chocolate1,
-					},
-					{
-						image: chocolate4,
-					},
+						image: productDetailData?.image,
+					}
 				]}
 			/>
 
@@ -60,14 +66,14 @@ const ProductDetail = ({ productId }: ProductDetailType) => {
 						<p className='fw-bolder ion-text-size-lg'>
 							<Trasnlator
 								from='en'
-								to={currentUser.data.preferredLanguage}
-								text='Chocolate Bar with Milk 39% Cacao 100g - Innato'
+								to={currentUser.data.preferredLanguage || 'en'}
+								text={productDetailData?.name || ""}
 								returnText={true}
 								onTextTranslated={() => {}}
 							/>
 
 							<IonText color='primary' className='fw-bolder ion-float-right'>
-								$30
+								${productDetailData?.price}
 							</IonText>
 						</p>
 					</div>
@@ -88,16 +94,7 @@ const ProductDetail = ({ productId }: ProductDetailType) => {
 						<>
 							<ProductDetailContent
 								businessImage={logoromex}
-								detail='
-								**Shipping**
-
-- **Port:** By Sea / PE - CALLAO
-- **Payment Terms:** WIRE TRANSFER(T/T)
-
-> Chocolate with milk, made with selected ingredients such as: White crystal sugar
-
-
-								'
+								detail={productDetailData?.description}
 							/>
 							<SendMessageButton />
 						</>

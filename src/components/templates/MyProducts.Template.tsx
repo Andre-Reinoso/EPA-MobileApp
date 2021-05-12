@@ -96,7 +96,7 @@ const MyProductsTemplate: React.FC = () => {
 							<h3>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='My Products'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -137,7 +137,7 @@ const MyProductsTemplate: React.FC = () => {
 											<h3>
 												<Trasnlator
 													from='en'
-													to={currentUser.data.preferredLanguage}
+													to={currentUser.data.preferredLanguage|| 'en'}
 													text={title}
 													returnText={true}
 													onTextTranslated={() => {}}

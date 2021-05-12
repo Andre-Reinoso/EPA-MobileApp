@@ -6,12 +6,7 @@ import {
 	IonButton,
 	IonLabel,
 	IonList,
-	IonModal,
-	IonAvatar,
-	IonContent,
-	IonHeader,
-	IonToolbar,
-	IonButtons,
+	IonNote,
 } from '@ionic/react';
 import {
 	mailOutline,
@@ -20,181 +15,88 @@ import {
 	earthOutline,
 	golfOutline,
 } from 'ionicons/icons';
-import { getCountries, getRegionsByCode } from '../../services/epaApi';
 import { UserContext } from '../../context/User.Context';
 import { Trasnlator } from './../elements/';
-interface selectedCountryType {
-	nativeName: string;
-	flag: string;
-	alpha2Code: string;
-}
-
-interface selectedRegionType {
-	name: string;
-	ISO_3166_2: string;
-}
+import { auth, db } from '../../services/firebase/firebase.config';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { ModalSelectCountry, ModalSelectRegion } from '../elements';
 
 const UserProfileForm: React.FC = () => {
 	const { currentUser } = React.useContext(UserContext);
 
-	const [showModalCountries, setShowModalCountries] = useState<boolean>(false);
-	const [countries, setCountries] = useState<Array<any>>([]);
-	const [selectedCountry, setSelectecCountry] = useState<selectedCountryType>();
+	const [selectedCountry, setSelectedCountry] = useState<any>(
+		currentUser.data.country
+	);
 
-	const [showModalregions, setShowModalregions] = useState<boolean>(false);
-	const [regions, setRegions] = useState<Array<any>>([]);
-	const [selectedRegion, setSelectedRegion] = useState<selectedRegionType>();
+	const [selectedRegion, setSelectedRegion] = useState<any>(
+		currentUser.data.deparment
+	);
 
-	useEffect(() => {
-		let isCancelled = false;
-
-		getCountries().then((result) => {
-			if (!isCancelled) {
-				setCountries(result);
+	const {
+		values,
+		isSubmitting,
+		setFieldValue,
+		handleSubmit,
+		errors,
+	} = useFormik({
+		initialValues: {
+			district: '',
+			province: '',
+		},
+		onSubmit: () => {
+			if (Object.entries(errors).length === 0) {
+				updateProfileForm(values);
 			}
-		});
-		return () => {
-			isCancelled = true;
-		};
-	}, [countries, setCountries]);
+		},
+		validationSchema: Yup.object({
+			province: Yup.string().required('Required field'),
+			district: Yup.string().required('Required field'),
+		}),
+	});
 
-	useEffect(() => {
-		let isCancelled = false;
-		if (selectedCountry?.alpha2Code !== undefined) {
-			getRegionsByCode(selectedCountry!.alpha2Code).then((result) => {
-				if (!isCancelled) {
-					setRegions(result);
-				}
-			});
-		}
-		return () => {
-			isCancelled = true;
-		};
-	}, [selectedCountry?.alpha2Code]);
+	async function updateProfileForm({}) {
+		try {
+			//actualizar country region distric province
+			await db.collection('users').doc(currentUser.data.uid).update({});
+		} catch (error) {}
+	}
 
 	return (
 		<>
-			<IonModal
-				isOpen={showModalCountries}
-				animated
-				backdropDismiss
-				showBackdrop>
-				<IonContent>
-					<IonHeader translucent className='ion-no-border'>
-						<IonToolbar>
-							<IonButtons slot='end'>
-								<IonButton
-									fill='clear'
-									color='primary'
-									onClick={() => {
-										setShowModalCountries(false);
-									}}>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Save'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonButton>
-							</IonButtons>
-						</IonToolbar>
-					</IonHeader>
-
-					<IonList lines='full'>
-						{countries?.map((country, index) => {
-							return (
-								<IonItem
-									key={index}
-									color={`${
-										selectedCountry?.alpha2Code === country.alpha2Code
-											? 'primary'
-											: ''
-									}`}
-									onClick={() => {
-										setSelectecCountry({ ...country });
-										setSelectedRegion({ name: '', ISO_3166_2: '' });
-									}}>
-									<IonAvatar slot='start'>
-										<img src={country.flag} />
-									</IonAvatar>
-									<IonLabel>{country.nativeName}</IonLabel>
-								</IonItem>
-							);
-						})}
-					</IonList>
-				</IonContent>
-			</IonModal>
-
-			<IonModal isOpen={showModalregions} animated backdropDismiss showBackdrop>
-				<IonContent>
-					<IonHeader translucent className='ion-no-border'>
-						<IonToolbar>
-							<IonButtons slot='end'>
-								<IonButton
-									fill='clear'
-									color='primary'
-									onClick={() => {
-										setShowModalregions(false);
-									}}>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Save'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonButton>
-							</IonButtons>
-						</IonToolbar>
-					</IonHeader>
-
-					<IonList lines='full'>
-						{regions.map((region, index) => {
-							return (
-								<IonItem
-									key={index}
-									color={`${
-										selectedRegion?.ISO_3166_2 === region.ISO_3166_2
-											? 'primary'
-											: ''
-									}`}
-									onClick={() => {
-										setSelectedRegion({ ...region });
-									}}>
-									<IonLabel>{region.name}</IonLabel>
-								</IonItem>
-							);
-						})}
-					</IonList>
-				</IonContent>
-			</IonModal>
-
 			<IonList className='px-2' lines='full'>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='First Name'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='text'></IonInput>
+					<IonInput
+						required
+						type='text'
+						disabled
+						value={currentUser.data.firstName}></IonInput>
 					<IonIcon slot='start' icon={personOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Last Name'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='text'></IonInput>
+					<IonInput
+						required
+						type='text'
+						disabled
+						value={currentUser.data.lastName}></IonInput>
 					<IonIcon slot='start' icon={personOutline} />
 				</IonItem>
 
@@ -202,87 +104,111 @@ const UserProfileForm: React.FC = () => {
 					<IonLabel position='floating'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Email'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='email'></IonInput>
+					<IonInput
+						disabled
+						type='email'
+						value={auth.currentUser?.email}></IonInput>
 					<IonIcon slot='start' icon={mailOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Phone Number'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='tel'></IonInput>
+					<IonInput
+						disabled
+						type='tel'
+						value={currentUser.data.phoneNumber}></IonInput>
 					<IonIcon slot='start' icon={phonePortraitOutline} />
 				</IonItem>
-
 				<IonItem className='mt-3'>
-					<IonButton
-						className='ion-text-capitalize ion-text-size-xs '
-						color='dark'
-						expand='full'
-						fill='clear'
-						onClick={() => setShowModalCountries(true)}>
-						{selectedCountry ? (
-							<>
-								<img
-									src={selectedCountry?.flag}
-									style={{ width: '40px', height: '30px' }}
-									alt=''
-									className='me-3'
-								/>
-								{selectedCountry?.nativeName}
-							</>
-						) : (
-							<Trasnlator
-								from='en'
-								to={currentUser.data.preferredLanguage}
-								text='Select Country'
-								returnText={true}
-								onTextTranslated={() => {}}
-							/>
-						)}
-					</IonButton>
+					<ModalSelectCountry
+						defaultCountry={selectedCountry}
+						onSelectedCountry={(e: any) => {
+							setSelectedCountry(e);
+						}}
+					/>
 					<IonIcon slot='start' icon={earthOutline} />
 				</IonItem>
 
 				<IonItem className='mt-3'>
-					<IonButton
-						className='ion-text-capitalize ion-text-size-xs'
-						color='dark'
-						expand='full'
-						fill='clear'
-						onClick={() => setShowModalregions(true)}>
-						{selectedRegion?.name ? (
-							<>{selectedRegion?.name}</>
-						) : (
-							<Trasnlator
-								from='en'
-								to={currentUser.data.preferredLanguage}
-								text='Select Region'
-								returnText={true}
-								onTextTranslated={() => {}}
-							/>
-						)}
-					</IonButton>
 					<IonIcon slot='start' icon={golfOutline} />
+					<ModalSelectRegion
+						onSelectedRegion={(e: any) => {
+							setSelectedRegion(e);
+						}}
+						alpha2Code={selectedCountry!.alpha2Code}
+					/>
+				</IonItem>
+
+				<IonItem className='mt-3'>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage|| 'en'}
+							text='Province'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
+					<IonInput
+						color={errors.province ? 'danger' : 'default'}
+						type='text'
+						onIonInput={(e: any) => {
+							setFieldValue('province', e.target.value);
+						}}></IonInput>
+					<IonIcon slot='start' icon={golfOutline} />
+					{errors.province && (
+						<IonNote color='danger'>
+							{errors.province ? errors.province : ''}
+						</IonNote>
+					)}
+				</IonItem>
+
+				<IonItem className='mt-3'>
+					<IonLabel position='floating'>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage|| 'en'}
+							text='District'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
+					<IonInput
+						color={errors.district ? 'danger' : 'default'}
+						type='text'
+						onIonInput={(e: any) => {
+							setFieldValue('district', e.target.value);
+						}}></IonInput>
+					<IonIcon slot='start' icon={golfOutline} />
+					{errors.district && (
+						<IonNote color='danger'>
+							{errors.district ? errors.district : ''}
+						</IonNote>
+					)}
 				</IonItem>
 
 				<IonButton
+					onClick={() => {
+						handleSubmit();
+					}}
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage|| 'en'}
 						text='Save'
 						returnText={true}
 						onTextTranslated={() => {}}

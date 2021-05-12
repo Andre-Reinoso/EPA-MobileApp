@@ -15,8 +15,10 @@ import BarTotalSalesProduct from './BarTotalSalesProduct';
 import PieTotalSalesProduct from './PieTotalSalesProduct';
 import UserProfileForm from './UserProfileForm';
 import BusinessProfileForm from './BusinessProfileForm';
+import AddProductForm from './AddProductForm';
 
 export {
+	AddProductForm,
 	LoginForm,
 	SignUpBuyerForm,
 	SignUpSellerForm,

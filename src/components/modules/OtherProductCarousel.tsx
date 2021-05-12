@@ -58,7 +58,7 @@ const OtherProductCarousel = ({ products }: ProductCarouselType) => {
 											<h6 className='fw-bolder m-0'>
 												<Trasnlator
 													from='en'
-													to={currentUser.data.preferredLanguage}
+													to={currentUser.data.preferredLanguage|| 'en'}
 													text={title.substring(0, 22)}
 													returnText={true}
 													onTextTranslated={() => {}}
@@ -67,7 +67,7 @@ const OtherProductCarousel = ({ products }: ProductCarouselType) => {
 											<p className='ion-text-size-xs'>
 												<Trasnlator
 													from='en'
-													to={currentUser.data.preferredLanguage}
+													to={currentUser.data.preferredLanguage|| 'en'}
 													text={description.substring(0, 35)}
 													returnText={true}
 													onTextTranslated={() => {}}

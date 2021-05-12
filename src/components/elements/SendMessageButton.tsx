@@ -12,7 +12,7 @@ const SendMessageButton = () => {
 				<IonButton className='ion-text-capitalize'>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage|| 'en'}
 						text='Send Message'
 						returnText={true}
 						onTextTranslated={() => {}}

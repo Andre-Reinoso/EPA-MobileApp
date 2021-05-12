@@ -48,7 +48,7 @@ const SelectCategoryForm: React.FC = () => {
 							<IonCardTitle className='fw-bolter' style={{ fontSize: '18px' }}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text={name}
 									returnText={true}
 									onTextTranslated={() => {}}

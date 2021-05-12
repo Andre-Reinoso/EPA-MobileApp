@@ -34,25 +34,13 @@ const DashboardTemplate: React.FC = () => {
 				</IonCol>
 				<IonCol size='7'>
 					<div className='ms-2'>
-						<h3 className='fw-bolder my-3'>
-							<Trasnlator
-								from='en'
-								to={currentUser.data.preferredLanguage}
-								text='example company or person'
-								returnText={true}
-								onTextTranslated={() => {}}
-							/>
-						</h3>
-						<IonText className='my-3' color='medium'>
-							<Trasnlator
-								from='en'
-								to={currentUser.data.preferredLanguage}
-								text='Ruc'
-								returnText={true}
-								onTextTranslated={() => {}}
-							/>{' '}
-							:515131321984
-						</IonText>
+						<h3 className='fw-bolder my-3'>{currentUser.data.companyName}</h3>
+						{currentUser.data.isSeller && (
+							<IonText className='my-3' color='medium'>
+								Ruc:{currentUser.data.usersSellerInfo.ruc}
+							</IonText>
+						)}
+
 						<IonButton
 							size='small'
 							color='primary'
@@ -60,8 +48,8 @@ const DashboardTemplate: React.FC = () => {
 							<p className='px-4'>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
-									text='Seller'
+									to={currentUser.data.preferredLanguage|| 'en'}
+									text={currentUser.data.isSeller ? 'Seller' : 'Buyer'}
 									returnText={true}
 									onTextTranslated={() => {}}
 								/>
@@ -80,8 +68,8 @@ const DashboardTemplate: React.FC = () => {
 						<IonText color='medium'>
 							<Trasnlator
 								from='en'
-								to={currentUser.data.preferredLanguage}
-								text='CantidadF'
+								to={currentUser.data.preferredLanguage|| 'en'}
+								text='Cantidad'
 								returnText={true}
 								onTextTranslated={() => {}}
 							/>
@@ -97,7 +85,7 @@ const DashboardTemplate: React.FC = () => {
 						<IonText color='medium'>
 							<Trasnlator
 								from='en'
-								to={currentUser.data.preferredLanguage}
+								to={currentUser.data.preferredLanguage|| 'en'}
 								text='Cantidad'
 								returnText={true}
 								onTextTranslated={() => {}}
@@ -114,7 +102,7 @@ const DashboardTemplate: React.FC = () => {
 						<IonText color='medium'>
 							<Trasnlator
 								from='en'
-								to={currentUser.data.preferredLanguage}
+								to={currentUser.data.preferredLanguage|| 'en'}
 								text='Cantidad'
 								returnText={true}
 								onTextTranslated={() => {}}
@@ -172,7 +160,7 @@ const DashboardTemplate: React.FC = () => {
 					}}>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage|| 'en'}
 						text='Log out'
 						returnText={true}
 						onTextTranslated={() => {}}

@@ -6,48 +6,24 @@ import {
 	IonButton,
 	IonLabel,
 	IonList,
-	IonModal,
-	IonAvatar,
-	IonContent,
-	IonHeader,
-	IonToolbar,
-	IonButtons,
+	IonNote,
 } from '@ionic/react';
-import {
-	businessOutline,
-	calendarOutline,
-	earthOutline,
-	golfOutline,
-} from 'ionicons/icons';
-import { getCountries, getRegionsByCode } from '../../services/epaApi';
+
+import { businessOutline, calendarOutline } from 'ionicons/icons';
 
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw, EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { UserContext } from '../../context/User.Context';
 import { Trasnlator } from './../elements/';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { db } from '../../services/firebase/firebase.config';
 
-interface selectedCountryType {
-	nativeName: string;
-	flag: string;
-	alpha2Code: string;
-}
-
-interface selectedRegionType {
-	name: string;
-	ISO_3166_2: string;
-}
+import { draftToMarkdown } from 'markdown-draft-js';
 
 const BusinessProfileForm: React.FC = () => {
 	const { currentUser } = React.useContext(UserContext);
-
-	const [showModalCountries, setShowModalCountries] = useState<boolean>(false);
-	const [countries, setCountries] = useState<Array<any>>([]);
-	const [selectedCountry, setSelectecCountry] = useState<selectedCountryType>();
-
-	const [showModalregions, setShowModalregions] = useState<boolean>(false);
-	const [regions, setRegions] = useState<Array<any>>([]);
-	const [selectedRegion, setSelectedRegion] = useState<selectedRegionType>();
 
 	const [editorState, setEditorState] = useState<any>(
 		EditorState.createEmpty()
@@ -57,155 +33,80 @@ const BusinessProfileForm: React.FC = () => {
 		setEditorState(eventEditorState);
 	}
 
-	useEffect(() => {
-		let isCancelled = false;
+	async function updateBussinesProfileForm({
+		yearStablished,
+		foundationYear,
+	}: any) {
+		try {
+			//year stablished fundation and description
+			await db
+				.collection('usersSeller')
+				.doc(currentUser.data.usersSellerInfo.docId)
+				.update({
+					yearStablished,
+					foundationYear,
+					description: draftToMarkdown(
+						convertToRaw(editorState.getCurrentContent())
+					),
+				});
+		} catch (error) {}
+	}
 
-		getCountries().then((result) => {
-			if (!isCancelled) {
-				setCountries(result);
+	const {
+		values,
+		isSubmitting,
+		setFieldValue,
+		handleSubmit,
+		errors,
+	} = useFormik({
+		initialValues: {
+			yearStablished: '',
+			foundationYear: '',
+		},
+		onSubmit: () => {
+			if (Object.entries(errors).length === 0) {
+				updateBussinesProfileForm(values);
 			}
-		});
-		return () => {
-			isCancelled = true;
-		};
-	}, [countries, setCountries]);
+		},
+		validationSchema: Yup.object({
+			yearStablished: Yup.date().required('Required field'),
+			foundationYear: Yup.date().required('Required field'),
+		}),
+	});
 
-	useEffect(() => {
-		let isCancelled = false;
-		if (selectedCountry?.alpha2Code !== undefined) {
-			getRegionsByCode(selectedCountry!.alpha2Code).then((result) => {
-				if (!isCancelled) {
-					setRegions(result);
-				}
-			});
-		}
-		return () => {
-			isCancelled = true;
-		};
-	}, [selectedCountry?.alpha2Code]);
 	return (
 		<>
-			<IonModal
-				isOpen={showModalCountries}
-				animated
-				backdropDismiss
-				showBackdrop>
-				<IonContent>
-					<IonHeader translucent className='ion-no-border'>
-						<IonToolbar>
-							<IonButtons slot='end'>
-								<IonButton
-									fill='clear'
-									color='primary'
-									onClick={() => {
-										setShowModalCountries(false);
-									}}>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Save'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonButton>
-							</IonButtons>
-						</IonToolbar>
-					</IonHeader>
-
-					<IonList lines='full'>
-						{countries?.map((country, index) => {
-							return (
-								<IonItem
-									key={index}
-									color={`${
-										selectedCountry?.alpha2Code === country.alpha2Code
-											? 'primary'
-											: ''
-									}`}
-									onClick={() => {
-										setSelectecCountry({ ...country });
-										setSelectedRegion({ name: '', ISO_3166_2: '' });
-									}}>
-									<IonAvatar slot='start'>
-										<img src={country.flag} />
-									</IonAvatar>
-									<IonLabel>{country.nativeName}</IonLabel>
-								</IonItem>
-							);
-						})}
-					</IonList>
-				</IonContent>
-			</IonModal>
-
-			<IonModal isOpen={showModalregions} animated backdropDismiss showBackdrop>
-				<IonContent>
-					<IonHeader translucent className='ion-no-border'>
-						<IonToolbar>
-							<IonButtons slot='end'>
-								<IonButton
-									fill='clear'
-									color='primary'
-									onClick={() => {
-										setShowModalregions(false);
-									}}>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Save'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonButton>
-							</IonButtons>
-						</IonToolbar>
-					</IonHeader>
-
-					<IonList lines='full'>
-						{regions.map((region, index) => {
-							return (
-								<IonItem
-									key={index}
-									color={`${
-										selectedRegion?.ISO_3166_2 === region.ISO_3166_2
-											? 'primary'
-											: ''
-									}`}
-									onClick={() => {
-										setSelectedRegion({ ...region });
-									}}>
-									<IonLabel>{region.name}</IonLabel>
-								</IonItem>
-							);
-						})}
-					</IonList>
-				</IonContent>
-			</IonModal>
-
 			<IonList className='px-2' lines='full'>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Company Name'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='text'></IonInput>
+					<IonInput
+						disabled
+						type='text'
+						value={currentUser.data.usersSellerInfo.companyName}></IonInput>
 					<IonIcon slot='start' icon={businessOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Ruc'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='number'></IonInput>
+					<IonInput
+						disabled
+						type='number'
+						value={currentUser.data.usersSellerInfo.ruc}></IonInput>
 					<IonIcon slot='start' icon={businessOutline} />
 				</IonItem>
 
@@ -213,74 +114,54 @@ const BusinessProfileForm: React.FC = () => {
 					<IonLabel position='stacked'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Year Stablished'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='date'></IonInput>
+					<IonInput
+						value={currentUser.data.usersSellerInfo.yearStablished}
+						onIonInput={(e: any) => {
+							setFieldValue('yearStablished', e.target.value);
+						}}
+						type='date'></IonInput>
 					<IonIcon slot='start' icon={calendarOutline} />
+					{errors.yearStablished && (
+						<IonNote color='danger'>
+							{errors.yearStablished ? errors.yearStablished : ''}
+						</IonNote>
+					)}
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='stacked'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Foundation Year'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<IonInput required type='date'></IonInput>
+					<IonInput
+						value={currentUser.data.usersSellerInfo.foundationYear}
+						onIonInput={(e: any) => {
+							setFieldValue('foundationYear', e.target.value);
+						}}
+						type='date'></IonInput>
 					<IonIcon slot='start' icon={calendarOutline} />
-				</IonItem>
-
-				<IonItem className='mt-3'>
-					<IonButton
-						className='ion-text-capitalize ion-text-size-xs '
-						color='dark'
-						expand='full'
-						fill='clear'
-						onClick={() => setShowModalCountries(true)}>
-						{selectedCountry ? (
-							<>
-								<img
-									src={selectedCountry?.flag}
-									style={{ width: '40px', height: '30px' }}
-									alt=''
-									className='me-3'
-								/>
-								{selectedCountry?.nativeName}
-							</>
-						) : (
-							'Select Country'
-						)}
-					</IonButton>
-					<IonIcon slot='start' icon={earthOutline} />
-				</IonItem>
-
-				<IonItem className='mt-3'>
-					<IonButton
-						className='ion-text-capitalize ion-text-size-xs'
-						color='dark'
-						expand='full'
-						fill='clear'
-						onClick={() => setShowModalregions(true)}>
-						{selectedRegion?.name ? (
-							<>{selectedRegion?.name}</>
-						) : (
-							'Select Region'
-						)}
-					</IonButton>
-					<IonIcon slot='start' icon={golfOutline} />
+					{errors.foundationYear && (
+						<IonNote color='danger'>
+							{errors.foundationYear ? errors.foundationYear : ''}
+						</IonNote>
+					)}
 				</IonItem>
 
 				<IonItem className='mt-3'>
 					<IonLabel position='stacked' className='mb-2'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Description'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -328,11 +209,15 @@ const BusinessProfileForm: React.FC = () => {
 				</IonItem>
 
 				<IonButton
+					onClick={() => {
+						handleSubmit();
+					}}
+					disabled={Object.entries(errors).length !== 0}
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage|| 'en'}
 						text='Save'
 						returnText={true}
 						onTextTranslated={() => {}}

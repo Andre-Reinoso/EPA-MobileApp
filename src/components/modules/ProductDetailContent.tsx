@@ -17,7 +17,7 @@ const ProductDetailContent = ({ businessImage, detail }: ProductDetailType) => {
 			<h5 className='fw-bolder'>
 				<Trasnlator
 					from='en'
-					to={currentUser.data.preferredLanguage}
+					to={currentUser.data.preferredLanguage|| 'en'}
 					text='Business:'
 					returnText={true}
 					onTextTranslated={() => {}}
@@ -29,7 +29,7 @@ const ProductDetailContent = ({ businessImage, detail }: ProductDetailType) => {
 			<h5 className='fw-bolder'>
 				<Trasnlator
 					from='en'
-					to={currentUser.data.preferredLanguage}
+					to={currentUser.data.preferredLanguage|| 'en'}
 					text='Detail:'
 					returnText={true}
 					onTextTranslated={() => {}}
@@ -39,7 +39,7 @@ const ProductDetailContent = ({ businessImage, detail }: ProductDetailType) => {
 				text={detail}
 				returnText={false}
 				from='en'
-				to={currentUser.data.preferredLanguage}
+				to={currentUser.data.preferredLanguage|| 'en'}
 				onTextTranslated={(e: any) => {
 					setTextTranslated(e);
 				}}

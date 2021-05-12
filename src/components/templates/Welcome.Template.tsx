@@ -25,7 +25,7 @@ const LoginTemplate: React.FC = () => {
 					<h1 className='ion-text-center'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Welcome'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -36,7 +36,7 @@ const LoginTemplate: React.FC = () => {
 						style={{ paddingLeft: '60px', paddingRight: '60px' }}>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Vel accumsan a nec adipiscing nisl proin phasellus.Vel accumsan a
 							nec adipiscing nisl proin phasellus.'
 							returnText={true}
@@ -56,7 +56,7 @@ const LoginTemplate: React.FC = () => {
 							}}>
 							<Trasnlator
 								from='en'
-								to={currentUser.data.preferredLanguage}
+								to={currentUser.data.preferredLanguage|| 'en'}
 								text='Continue'
 								returnText={true}
 								onTextTranslated={() => {}}

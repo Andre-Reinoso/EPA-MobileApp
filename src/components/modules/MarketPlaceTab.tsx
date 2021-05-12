@@ -25,7 +25,7 @@ const MarketPlaceTab = () => {
 								color={`${selectedTab === 'Products' ? 'dark' : 'medium'}`}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='Products'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -47,7 +47,7 @@ const MarketPlaceTab = () => {
 								color={`${selectedTab === 'Favorites' ? 'dark' : 'medium'}`}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='Favorites'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -69,7 +69,7 @@ const MarketPlaceTab = () => {
 								color={`${selectedTab === 'New Products' ? 'dark' : 'medium'}`}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='New Products'
 									returnText={true}
 									onTextTranslated={() => {}}

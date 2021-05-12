@@ -63,9 +63,9 @@ const App: React.FC = () => {
 				spinner: 'bubbles',
 				id: 'loadingSpiner',
 			});
-			const result = await db.collection('users').doc(user.uid).get();
+			const userResult = await db.collection('users').doc(user.uid).get();
 
-			if (result.data()?.status !== 'active') {
+			if (userResult.data()?.status !== 'active') {
 				present({
 					buttons: [
 						{
@@ -80,10 +80,30 @@ const App: React.FC = () => {
 				auth.signOut();
 				logout();
 			} else {
-				const userData = {
-					uid: user.uid,
-					...result.data(),
-				};
+				let userData = {};
+				if (userResult.data()?.isSeller === true) {
+					const usersSellerResult = await db
+						.collection('usersSeller')
+						.where('userId', '==', user.uid)
+						.get();
+
+					usersSellerResult.forEach((doc) => {
+						userData = {
+							uid: user.uid,
+							...userResult.data(),
+							usersSellerInfo: {
+								docId: doc.id,
+								...doc.data(),
+							},
+						};
+					});
+				} else {
+					userData = {
+						uid: user.uid,
+						...userResult.data(),
+					};
+				}
+
 				login(userData);
 			}
 			dismissLoading();

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	IonGrid,
 	IonCol,
@@ -19,10 +19,25 @@ import {
 import { MarketPlaceProductChipContext } from '../../context/MarketPlaceProductChip.Context';
 import { UserContext } from '../../context/User.Context';
 import { Trasnlator } from './../elements/';
+import { db } from '../../services/firebase/firebase.config';
 
 const MarketPlaceProductChip = () => {
 	const { selectedChip, setChip } = useContext(MarketPlaceProductChipContext);
 	const { currentUser } = React.useContext(UserContext);
+	const [categories, setCategories] = useState<Array<any>>();
+	useEffect(() => {
+		let unsubscribe = db.collection('categories').onSnapshot((categories) => {
+			let listOfCategories: any = [];
+			categories.forEach((category) => {
+				listOfCategories.push(category.data());
+			});
+			setCategories(listOfCategories);
+
+			return () => {
+				unsubscribe();
+			};
+		});
+	}, []);
 
 	return (
 		<>
@@ -34,110 +49,36 @@ const MarketPlaceProductChip = () => {
 						options={{
 							zoom: false,
 							grabCursor: false,
-							slidesPerView: 1.4,
-							spaceBetween: -50,
+							slidesPerView: 2.2,
+							spaceBetween: 5,
 							watchSlidesVisibility: true,
 							watchSlidesProgress: true,
 							freeMode: true,
 						}}>
-						<IonSlide>
-							<IonChip
-								color={`${
-									selectedChip === 'Apparel, Textiles & Accessories'
-										? 'dark'
-										: 'medium'
-								}`}
-								outline
-								onClick={() => {
-									setChip('Apparel, Textiles & Accessories');
-								}}>
-								<IonAvatar>
-									<img
-										style={{ width: '100px', height: '100%' }}
-										src={bannerTextilUrl}
-									/>
-								</IonAvatar>
-								<IonLabel
-									color={`${
-										selectedChip === 'Apparel, Textiles & Accessories'
-											? 'dark'
-											: 'medium'
-									}`}
-									className='fw-bolder'>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Apparel, Textiles & Accessories'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonLabel>
-							</IonChip>
-						</IonSlide>
-						<IonSlide>
-							<IonChip
-								color={`${
-									selectedChip === 'Agriculture & Food' ? 'dark' : 'medium'
-								}`}
-								outline
-								onClick={() => {
-									setChip('Agriculture & Food');
-								}}>
-								<IonAvatar>
-									<img
-										src={bannerCornUrl}
-										style={{ width: '100px', height: '100%' }}
-									/>
-								</IonAvatar>
-								<IonLabel
-									color={`${
-										selectedChip === 'Agriculture & Food' ? 'dark' : 'medium'
-									}`}
-									className='fw-bolder'>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Agriculture & Food'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonLabel>
-							</IonChip>
-						</IonSlide>
-						<IonSlide>
-							<IonChip
-								color={`${
-									selectedChip === 'Home, Lights & ConstructionF'
-										? 'dark'
-										: 'medium'
-								}`}
-								outline
-								onClick={() => {
-									setChip('Home, Lights & Construction');
-								}}>
-								<IonAvatar>
-									<img
-										src={bannerHomeUrl}
-										style={{ width: '100px', height: '100%' }}
-									/>
-								</IonAvatar>
-								<IonLabel
-									color={`${
-										selectedChip === 'Home, Lights & Construction'
-											? 'dark'
-											: 'medium'
-									}`}
-									className='fw-bolder'>
-									<Trasnlator
-										from='en'
-										to={currentUser.data.preferredLanguage}
-										text='Home, Lights & Construction'
-										returnText={true}
-										onTextTranslated={() => {}}
-									/>
-								</IonLabel>
-							</IonChip>
-						</IonSlide>
+						{categories?.map(({ name }, i) => {
+							return (
+								<IonSlide key={i}>
+									<IonChip
+										color={`${selectedChip === name ? 'dark' : 'medium'}`}
+										outline
+										onClick={() => {
+											setChip(name);
+										}}>
+										<IonLabel
+											color={`${selectedChip === name ? 'dark' : 'medium'}`}
+											className='fw-bolder'>
+											<Trasnlator
+												from='es'
+												to={currentUser.data.preferredLanguage || 'en'}
+												text={name}
+												returnText={true}
+												onTextTranslated={() => {}}
+											/>
+										</IonLabel>
+									</IonChip>
+								</IonSlide>
+							);
+						})}
 					</IonSlides>
 				</IonRow>
 			</IonGrid>

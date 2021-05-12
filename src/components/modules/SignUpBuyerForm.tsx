@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	IonInput,
 	IonItem,
@@ -15,14 +15,23 @@ import {
 	lockClosedOutline,
 	phonePortraitOutline,
 	personOutline,
+	earthOutline,
+	golfOutline,
 } from 'ionicons/icons';
 import { auth, db } from './../../services/firebase/firebase.config';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { translateText } from './../../services/translate/';
+import { ModalSelectCountry, ModalSelectRegion } from '../elements';
 
 const SignUpBuyerForm: React.FC = () => {
 	const [present, dismiss] = useIonToast();
+	const [selectedCountry, setSelectedCountry] = useState<any>({
+		alpha2Code: 'PE',
+		flag: 'https://restcountries.eu/data/per.svg',
+		nativeName: 'Perú',
+	});
+
+	const [selectedRegion, setSelectedRegion] = useState<any>();
 
 	async function signUpBuyer({
 		companyName,
@@ -31,8 +40,16 @@ const SignUpBuyerForm: React.FC = () => {
 		lastName,
 		password,
 		email,
+		province,
+		district,
 	}: any) {
 		try {
+			const responsePhoneNumber = await db
+				.collection('users')
+				.where('phoneNumber', '==', phoneNumber)
+				.get();
+			if (!responsePhoneNumber.empty)
+				throw new Error('The Phone Number is already registered');
 			const response = await auth.createUserWithEmailAndPassword(
 				email,
 				password
@@ -42,12 +59,18 @@ const SignUpBuyerForm: React.FC = () => {
 				phoneNumber,
 				firstName,
 				lastName,
-				status:"active"
+				isSeller: false,
+				status: 'active',
+				preferredLanguage: 'en',
+				country: selectedCountry,
+				deparment: selectedRegion,
+				province,
+				district,
 			});
 		} catch (error) {
 			present({
 				buttons: [{ text: 'Hide', handler: () => dismiss() }],
-				message: await translateText(error.message, 'en', 'es'),
+				message: error.message,
 			});
 		}
 	}
@@ -66,6 +89,8 @@ const SignUpBuyerForm: React.FC = () => {
 			email: '',
 			password: '',
 			confirmPassword: '',
+			district: '',
+			province: '',
 		},
 		onSubmit: () => {
 			if (Object.entries(errors).length === 0) {
@@ -78,6 +103,8 @@ const SignUpBuyerForm: React.FC = () => {
 			lastName: Yup.string().required('Required field'),
 			phoneNumber: Yup.number().required('Required field'),
 			email: Yup.string().email('Invalid Email').required('Required field'),
+			province: Yup.string().required('Required field'),
+			district: Yup.string().required('Required field'),
 			password: Yup.string()
 				.min(6, 'Min 6 characters')
 				.required('Required field'),
@@ -168,6 +195,58 @@ const SignUpBuyerForm: React.FC = () => {
 						<IonNote color='danger'>{errors.email ? errors.email : ''}</IonNote>
 					)}
 				</IonItem>
+				<IonItem className='mt-3'>
+					<ModalSelectCountry
+						defaultCountry={selectedCountry}
+						onSelectedCountry={(e: any) => {
+							setSelectedCountry(e);
+						}}
+					/>
+					<IonIcon slot='start' icon={earthOutline} />
+				</IonItem>
+
+				<IonItem className='mt-3'>
+					<IonIcon slot='start' icon={golfOutline} />
+					<ModalSelectRegion
+						onSelectedRegion={(e: any) => {
+							setSelectedRegion(e);
+						}}
+						alpha2Code={selectedCountry!.alpha2Code}
+					/>
+				</IonItem>
+
+				<IonItem className='mt-3'>
+					<IonLabel position='floating'>Province</IonLabel>
+					<IonInput
+						color={errors.province ? 'danger' : 'default'}
+						type='text'
+						onIonInput={(e: any) => {
+							setFieldValue('province', e.target.value);
+						}}></IonInput>
+					<IonIcon slot='start' icon={golfOutline} />
+					{errors.province && (
+						<IonNote color='danger'>
+							{errors.province ? errors.province : ''}
+						</IonNote>
+					)}
+				</IonItem>
+
+				<IonItem className='mt-3'>
+					<IonLabel position='floating'>District</IonLabel>
+					<IonInput
+						color={errors.district ? 'danger' : 'default'}
+						type='text'
+						onIonInput={(e: any) => {
+							setFieldValue('district', e.target.value);
+						}}></IonInput>
+					<IonIcon slot='start' icon={golfOutline} />
+					{errors.district && (
+						<IonNote color='danger'>
+							{errors.district ? errors.district : ''}
+						</IonNote>
+					)}
+				</IonItem>
+
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>Password</IonLabel>
 					<IonInput

@@ -20,7 +20,7 @@ const SelectCategoryTemplate: React.FC = () => {
 					<h1>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage|| 'en'}
 							text='Select your preferred categories:'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -37,7 +37,7 @@ const SelectCategoryTemplate: React.FC = () => {
 							}}>
 							<Trasnlator
 								from='en'
-								to={currentUser.data.preferredLanguage}
+								to={currentUser.data.preferredLanguage|| 'en'}
 								text='Continue'
 								returnText={true}
 								onTextTranslated={() => {}}

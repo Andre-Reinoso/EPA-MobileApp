@@ -46,7 +46,7 @@ const MarketPlaceLayout: React.FC = ({ children }) => {
 							<IonTitle size='large' className='ion-text-center'>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='Market Place'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -68,7 +68,13 @@ const MarketPlaceLayout: React.FC = ({ children }) => {
 									<h3
 										className='fw-bolder'
 										style={{ margin: 0, color: '#fff' }}>
-										Explore Peru from abroad
+										<Trasnlator
+											from='en'
+											to={currentUser.data.preferredLanguage|| 'en'}
+											text='Explore Peru from abroad'
+											returnText={true}
+											onTextTranslated={() => {}}
+										/>
 									</h3>
 								</IonCol>
 								<IonCol>

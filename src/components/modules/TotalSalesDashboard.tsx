@@ -27,7 +27,7 @@ const TotalSalesDashboard = ({
 									<p className='ion-text-size-md my-1'>
 										<Trasnlator
 											from='en'
-											to={currentUser.data.preferredLanguage}
+											to={currentUser.data.preferredLanguage|| 'en'}
 											text='Total sales'
 											returnText={true}
 											onTextTranslated={() => {}}

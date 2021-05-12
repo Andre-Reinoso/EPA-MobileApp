@@ -44,7 +44,7 @@ const DashboardActionList = () => {
 				<IonLabel>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage || 'en'}
 						text='Profile User/Business'
 						returnText={true}
 						onTextTranslated={() => {}}
@@ -52,34 +52,37 @@ const DashboardActionList = () => {
 				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
-			<IonItem
-				onClick={() => {
-					history.push('/myProducts');
-				}}>
-				<IonButtons slot='start'>
-					<IonButton
-						style={{
-							backgroundColor: '#ffc409',
-							borderRadius: '50%',
-							color: 'white',
-							width: '40px',
-							height: '40px',
-						}}>
-						<IonIcon icon={cubeOutline} />
-					</IonButton>
-				</IonButtons>
+			{currentUser.data.isSeller && (
+				<IonItem
+					onClick={() => {
+						history.push('/myProducts');
+					}}>
+					<IonButtons slot='start'>
+						<IonButton
+							style={{
+								backgroundColor: '#ffc409',
+								borderRadius: '50%',
+								color: 'white',
+								width: '40px',
+								height: '40px',
+							}}>
+							<IonIcon icon={cubeOutline} />
+						</IonButton>
+					</IonButtons>
 
-				<IonLabel>
-					<Trasnlator
-						from='en'
-						to={currentUser.data.preferredLanguage}
-						text='Products'
-						returnText={true}
-						onTextTranslated={() => {}}
-					/>
-				</IonLabel>
-				<IonIcon icon={chevronForwardOutline} />
-			</IonItem>
+					<IonLabel>
+						<Trasnlator
+							from='en'
+							to={currentUser.data.preferredLanguage || 'en'}
+							text='Products'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
+					<IonIcon icon={chevronForwardOutline} />
+				</IonItem>
+			)}
+
 			<IonItem
 				onClick={() => {
 					history.push('/selectLanguage');
@@ -100,7 +103,7 @@ const DashboardActionList = () => {
 				<IonLabel>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage || 'en'}
 						text='Language'
 						returnText={true}
 						onTextTranslated={() => {}}
@@ -129,7 +132,7 @@ const DashboardActionList = () => {
 				<IonLabel>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage || 'en'}
 						text='Preferred categories'
 						returnText={true}
 						onTextTranslated={() => {}}
@@ -158,7 +161,7 @@ const DashboardActionList = () => {
 				<IonLabel>
 					<Trasnlator
 						from='en'
-						to={currentUser.data.preferredLanguage}
+						to={currentUser.data.preferredLanguage || 'en'}
 						text='My Chats'
 						returnText={true}
 						onTextTranslated={() => {}}

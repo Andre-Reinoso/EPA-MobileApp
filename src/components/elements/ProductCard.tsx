@@ -45,7 +45,7 @@ const Translator = ({
 							<h6 className='fw-bolder m-0'>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text={title}
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -54,7 +54,7 @@ const Translator = ({
 							<p className='ion-text-size-xs ion-text-lowercase'>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text={description}
 									returnText={true}
 									onTextTranslated={() => {}}

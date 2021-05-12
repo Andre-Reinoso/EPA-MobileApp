@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { IonRow, IonCol } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
@@ -6,51 +6,25 @@ import { MarketPlaceTab, MarketPlaceProductChip } from './../modules/';
 
 import { ProductCard } from './../elements/';
 import { MarketPlaceTabContext } from '../../context/MarketPlaceTab.Context';
-import {
-	aretes,
-	camisa,
-	chocolate1,
-	chocolate2,
-	nuez,
-	platos,
-	quinua,
-} from '../../utilities/assets';
+import { aretes, camisa, platos } from '../../utilities/assets';
+import { db } from '../../services/firebase/firebase.config';
 
 const MarketPlaceTemplate: React.FC = () => {
-	const products = [
-		{
-			title: 'Chocolate Bar with Milk 39% Cacao 100g - Innato',
-			description: 'Chocolate with milk at 39% cocoa weight 100 grams',
-			img: chocolate1,
-			price: 65.5,
-		},
-		{
-			title: 'Dark Chocolate Bar with Brazil nut 70% cacao 70g',
-			description: '70% cacao Organic',
-			img: chocolate2,
-			price: 30.5,
-		},
-		{
-			title: 'Brazil Nuts Oil Extra Virgin 250ml Manutata',
-			description:
-				'WILD AND ECOLOGICAL EXTRA VIRGIN AMAZON CHESTNUT OIL WITH OMEGA 6 AND 9.',
-			img: nuez,
-			price: 15.5,
-		},
+	const [products, setProducts] = useState<Array<any>>();
 
-		{
-			title: 'Cotton Shirt with Bag Contrast',
-			description: 'Classic shirt 80111',
-			img: camisa,
-			price: 15.5,
-		},
-		{
-			title: 'Selected Pearl Quinoa. INCASUR',
-			description: 'Selected Pearled Quinoa of 250 grams',
-			img: quinua,
-			price: 15.5,
-		},
-	];
+	useEffect(() => {
+		let unsubscribe = db.collection('products').onSnapshot((products) => {
+			let listOfProducts: any = [];
+			products.forEach((product) => {
+				listOfProducts.push({ productId: product.id, ...product.data() });
+			});
+			setProducts(listOfProducts);
+
+			return () => {
+				unsubscribe();
+			};
+		});
+	}, [products]);
 	const history = useHistory();
 
 	const { selectedTab } = useContext(MarketPlaceTabContext);
@@ -63,20 +37,22 @@ const MarketPlaceTemplate: React.FC = () => {
 					{selectedTab === 'Products' && (
 						<>
 							<MarketPlaceProductChip />
-							{products.map(({ title, description, img, price }, i) => {
-								return (
-									<ProductCard
-										key={i}
-										title={title}
-										description={description}
-										img={img}
-										price={price}
-										onClick={() => {
-											history.push(`/productDetail/${i}`);
-										}}
-									/>
-								);
-							})}
+							{products?.map(
+								({ productId, image, name, price, description }, i) => {
+									return (
+										<ProductCard
+											key={i}
+											title={name}
+											description={description}
+											img={image}
+											price={price}
+											onClick={() => {
+												history.push(`/productDetail/${productId}`);
+											}}
+										/>
+									);
+								}
+							)}
 						</>
 					)}
 					{selectedTab === 'Favorites' && (
@@ -117,13 +93,13 @@ const MarketPlaceTemplate: React.FC = () => {
 					)}
 					{selectedTab === 'New Products' && (
 						<>
-							{products.map(({ title, description, img, price }, i) => {
+							{products?.map(({ image, name, price, description }, i) => {
 								return (
 									<ProductCard
 										key={i}
-										title={title}
+										title={name}
 										description={description}
-										img={img}
+										img={image}
 										price={price}
 									/>
 								);

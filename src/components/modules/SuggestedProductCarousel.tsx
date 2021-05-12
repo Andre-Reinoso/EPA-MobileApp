@@ -55,7 +55,7 @@ const ProductCarousel = ({ products }: SuggestedProductCarouselType) => {
 										<IonText color='dark'>
 											<Trasnlator
 												from='en'
-												to={currentUser.data.preferredLanguage}
+												to={currentUser.data.preferredLanguage|| 'en'}
 												text={title.substring(0, 22)}
 												returnText={true}
 												onTextTranslated={() => {}}

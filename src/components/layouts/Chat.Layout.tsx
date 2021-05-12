@@ -39,7 +39,7 @@ const ChatLayout: React.FC = ({ children }) => {
 							<IonTitle size='large' className='ion-text-center'>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage}
+									to={currentUser.data.preferredLanguage|| 'en'}
 									text='Chat'
 									returnText={true}
 									onTextTranslated={() => {}}

@@ -40,7 +40,7 @@ const SelectButton = ({
 					<p className='px-4'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text={firstButtonTitle}
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -57,7 +57,7 @@ const SelectButton = ({
 					<p className='px-4'>
 						<Trasnlator
 							from='en'
-							to={currentUser.data.preferredLanguage}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text={secondButtonTitle}
 							returnText={true}
 							onTextTranslated={() => {}}

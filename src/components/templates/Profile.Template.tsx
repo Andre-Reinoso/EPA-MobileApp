@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { IonRow, IonCol } from '@ionic/react';
 import { BusinessProfileForm, SelectButton, UserProfileForm } from '../modules';
+import { UserContext } from '../../context/User.Context';
+import { Trasnlator } from './../elements';
 
 const ProfileTemplate: React.FC = () => {
 	const [selectedContent, setSelectedContent] = useState('User');
+	const { currentUser } = useContext(UserContext);
+	
 	useEffect(() => {}, []);
 	return (
 		<>
@@ -19,7 +23,21 @@ const ProfileTemplate: React.FC = () => {
 			<IonRow>
 				<IonCol>
 					{selectedContent === 'User' && <UserProfileForm />}
-					{selectedContent === 'Business' && <BusinessProfileForm/>}
+
+					{selectedContent === 'Business' &&
+						(currentUser.data.isSeller ? (
+							<BusinessProfileForm />
+						) : (
+							<h3>
+								<Trasnlator
+									from='en'
+									to={currentUser.data.preferredLanguage|| 'en'}
+									text='The User is not a Seller'
+									returnText={true}
+									onTextTranslated={() => {}}
+								/>
+							</h3>
+						))}
 				</IonCol>
 			</IonRow>
 		</>

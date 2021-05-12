@@ -23,7 +23,7 @@ interface langaugeType {
 }
 
 const SelectLanguageForm: React.FC = () => {
-	const { currentUser } = useContext(UserContext);
+	const { currentUser, updateCurrentUser } = useContext(UserContext);
 
 	const [selectedLanguage, setSelectecLanguage] = useState(
 		currentUser.data.preferredLanguage
@@ -36,6 +36,7 @@ const SelectLanguageForm: React.FC = () => {
 			.doc(currentUser.data.uid)
 			.update({ preferredLanguage: selectedLanguage })
 			.then((result) => {
+				updateCurrentUser('preferredLanguage', selectedLanguage);
 				history.push('/welcome');
 			});
 	}
