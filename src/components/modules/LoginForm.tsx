@@ -10,31 +10,29 @@ import {
 	useIonToast,
 } from '@ionic/react';
 import { mailOutline, lockClosedOutline } from 'ionicons/icons';
-import { auth } from './../../services/firebase/firebase.config';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { translateText } from './../../services/translate/';
+import { useHistory } from 'react-router-dom';
+
+import { auth } from '../../config/Firebase.config';
 
 const LoginForm: React.FC = () => {
 	const [present, dismiss] = useIonToast();
+	const history = useHistory();
+
 	async function login({ email, password }: any) {
 		try {
-			const response = await auth.signInWithEmailAndPassword(email, password);
+			await auth.signInWithEmailAndPassword(email, password);
 		} catch (error) {
 			present({
 				buttons: [{ text: 'Hide', handler: () => dismiss() }],
-				message: await translateText(error.message, 'en', 'es'),
+				message: error.message,
 			});
 		}
 	}
 
-	const {
-		values,
-		isSubmitting,
-		setFieldValue,
-		handleSubmit,
-		errors,
-	} = useFormik({
+	const { values, setFieldValue, handleSubmit, errors } = useFormik({
 		initialValues: {
 			email: '',
 			password: '',
@@ -99,6 +97,15 @@ const LoginForm: React.FC = () => {
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
 					Sign In
+				</IonButton>
+				<IonButton
+					onClick={() => {
+						history.push('/signup');
+					}}
+					expand='block'
+					fill='outline'
+					className='ion-button-shadow-sm mt-3 ion-button-full-rounded ion-text-capitalize fw-bold'>
+					Sign Up
 				</IonButton>
 			</IonList>
 		</>

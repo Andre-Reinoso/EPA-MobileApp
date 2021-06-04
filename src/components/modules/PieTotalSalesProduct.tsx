@@ -1,15 +1,15 @@
 import React from 'react';
 import { IonRow, IonCol, IonText, IonGrid } from '@ionic/react';
-import { PieChart } from '../elements';
+import PieChart from '../elements/PieChart';
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
+import Translator from '../elements/Translator';
+
 interface PieTotalSalesProductType {
 	data: any;
 }
 
 const PieTotalSalesProduct = ({ data }: PieTotalSalesProductType) => {
 	const { currentUser } = React.useContext(UserContext);
-
 	return (
 		<>
 			<div className='epa-gradient m-3 rounded-3'>
@@ -18,9 +18,9 @@ const PieTotalSalesProduct = ({ data }: PieTotalSalesProductType) => {
 						<IonCol>
 							<p className='ion-text-center m-0 my-2 fw-bolder'>
 								<IonText color='light'>
-									<Trasnlator
+									<Translator
 										from='en'
-										to={currentUser.data.preferredLanguage|| 'en'}
+										to={currentUser.data.preferredLanguage || 'en'}
 										text='Total sales'
 										returnText={true}
 										onTextTranslated={() => {}}

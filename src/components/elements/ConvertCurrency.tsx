@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { currencyConverter } from '../../services/epaApi/CurrencyConverter';
+import { useState, useEffect } from 'react';
+import EpaService from './../../services/EPA/Epa.Service';
 
-interface ConvertCurrencyType {
-	amount: number;
+interface TypeConvertCurreny {
 	from: string;
 	to: string;
+	amount: string;
 }
 
-const ConvertCurrency = (props: ConvertCurrencyType) => {
-	const { amount, from, to } = props;
+const ConvertCurrency = ({ amount, from, to }: TypeConvertCurreny) => {
 	const [amountConverted, setAmountConverted] = useState<number>();
-
 	function getCurrencyConverted() {
+		const { currencyConverter } = new EpaService();
 		currencyConverter(from, to).then((result) => {
-			let amountRounded: number = Number(
-				(result[`${from}_${to}`] * amount).toFixed(2)
+			setAmountConverted(
+				Number((result[`${from}_${to}`] * Number(amount)).toFixed(2))
 			);
-			setAmountConverted(result);
 		});
 	}
-
 	useEffect(() => {
 		getCurrencyConverted();
 	}, [to]);

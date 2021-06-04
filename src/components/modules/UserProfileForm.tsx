@@ -16,44 +16,30 @@ import {
 	golfOutline,
 } from 'ionicons/icons';
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
-import { auth, db } from '../../services/firebase/firebase.config';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { ModalSelectCountry, ModalSelectRegion } from '../elements';
+import Translator from '../elements/Translator';
+import { db, auth } from '../../config/Firebase.config';
 
 const UserProfileForm: React.FC = () => {
 	const { currentUser } = React.useContext(UserContext);
 
-	const [selectedCountry, setSelectedCountry] = useState<any>(
-		currentUser.data.country
-	);
-
-	const [selectedRegion, setSelectedRegion] = useState<any>(
-		currentUser.data.deparment
-	);
-
-	const {
-		values,
-		isSubmitting,
-		setFieldValue,
-		handleSubmit,
-		errors,
-	} = useFormik({
-		initialValues: {
-			district: '',
-			province: '',
-		},
-		onSubmit: () => {
-			if (Object.entries(errors).length === 0) {
-				updateProfileForm(values);
-			}
-		},
-		validationSchema: Yup.object({
-			province: Yup.string().required('Required field'),
-			district: Yup.string().required('Required field'),
-		}),
-	});
+	const { values, isSubmitting, setFieldValue, handleSubmit, errors } =
+		useFormik({
+			initialValues: {
+				district: '',
+				province: '',
+			},
+			onSubmit: () => {
+				if (Object.entries(errors).length === 0) {
+					updateProfileForm(values);
+				}
+			},
+			validationSchema: Yup.object({
+				province: Yup.string().required('Required field'),
+				district: Yup.string().required('Required field'),
+			}),
+		});
 
 	async function updateProfileForm({}) {
 		try {
@@ -67,9 +53,9 @@ const UserProfileForm: React.FC = () => {
 			<IonList className='px-2' lines='full'>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='First Name'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -84,9 +70,9 @@ const UserProfileForm: React.FC = () => {
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Last Name'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -102,9 +88,9 @@ const UserProfileForm: React.FC = () => {
 
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Email'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -118,9 +104,9 @@ const UserProfileForm: React.FC = () => {
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Phone Number'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -132,31 +118,12 @@ const UserProfileForm: React.FC = () => {
 						value={currentUser.data.phoneNumber}></IonInput>
 					<IonIcon slot='start' icon={phonePortraitOutline} />
 				</IonItem>
-				<IonItem className='mt-3'>
-					<ModalSelectCountry
-						defaultCountry={selectedCountry}
-						onSelectedCountry={(e: any) => {
-							setSelectedCountry(e);
-						}}
-					/>
-					<IonIcon slot='start' icon={earthOutline} />
-				</IonItem>
-
-				<IonItem className='mt-3'>
-					<IonIcon slot='start' icon={golfOutline} />
-					<ModalSelectRegion
-						onSelectedRegion={(e: any) => {
-							setSelectedRegion(e);
-						}}
-						alpha2Code={selectedCountry!.alpha2Code}
-					/>
-				</IonItem>
 
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Province'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -178,9 +145,9 @@ const UserProfileForm: React.FC = () => {
 
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='District'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -206,9 +173,9 @@ const UserProfileForm: React.FC = () => {
 					}}
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
-					<Trasnlator
+					<Translator
 						from='en'
-						to={currentUser.data.preferredLanguage|| 'en'}
+						to={currentUser.data.preferredLanguage || 'en'}
 						text='Save'
 						returnText={true}
 						onTextTranslated={() => {}}

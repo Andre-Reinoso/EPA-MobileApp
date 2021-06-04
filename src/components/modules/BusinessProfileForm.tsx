@@ -11,27 +11,16 @@ import {
 
 import { businessOutline, calendarOutline } from 'ionicons/icons';
 
-import { Editor } from 'react-draft-wysiwyg';
-import { convertToRaw, EditorState } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
+
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { db } from '../../services/firebase/firebase.config';
-
-import { draftToMarkdown } from 'markdown-draft-js';
+import { db } from '../../config/Firebase.config';
+import Translator from '../elements/Translator';
+import MarkDownEditor from '../elements/MarkDownEditor';
 
 const BusinessProfileForm: React.FC = () => {
 	const { currentUser } = React.useContext(UserContext);
-
-	const [editorState, setEditorState] = useState<any>(
-		EditorState.createEmpty()
-	);
-
-	function eventEditor(eventEditorState: any) {
-		setEditorState(eventEditorState);
-	}
 
 	async function updateBussinesProfileForm({
 		yearStablished,
@@ -41,47 +30,42 @@ const BusinessProfileForm: React.FC = () => {
 			//year stablished fundation and description
 			await db
 				.collection('usersSeller')
-				.doc(currentUser.data.usersSellerInfo.docId)
+				.doc(currentUser.data.userSeller.userId)
 				.update({
 					yearStablished,
 					foundationYear,
-					description: draftToMarkdown(
+					/*description: draftToMarkdown(
 						convertToRaw(editorState.getCurrentContent())
-					),
+					),*/
 				});
 		} catch (error) {}
 	}
 
-	const {
-		values,
-		isSubmitting,
-		setFieldValue,
-		handleSubmit,
-		errors,
-	} = useFormik({
-		initialValues: {
-			yearStablished: '',
-			foundationYear: '',
-		},
-		onSubmit: () => {
-			if (Object.entries(errors).length === 0) {
-				updateBussinesProfileForm(values);
-			}
-		},
-		validationSchema: Yup.object({
-			yearStablished: Yup.date().required('Required field'),
-			foundationYear: Yup.date().required('Required field'),
-		}),
-	});
+	const { values, isSubmitting, setFieldValue, handleSubmit, errors } =
+		useFormik({
+			initialValues: {
+				yearStablished: '',
+				foundationYear: '',
+			},
+			onSubmit: () => {
+				if (Object.entries(errors).length === 0) {
+					updateBussinesProfileForm(values);
+				}
+			},
+			validationSchema: Yup.object({
+				yearStablished: Yup.date().required('Required field'),
+				foundationYear: Yup.date().required('Required field'),
+			}),
+		});
 
 	return (
 		<>
 			<IonList className='px-2' lines='full'>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Company Name'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -90,14 +74,14 @@ const BusinessProfileForm: React.FC = () => {
 					<IonInput
 						disabled
 						type='text'
-						value={currentUser.data.usersSellerInfo.companyName}></IonInput>
+						value={currentUser.data.userSeller.companyName}></IonInput>
 					<IonIcon slot='start' icon={businessOutline} />
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='floating'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Ruc'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -106,22 +90,22 @@ const BusinessProfileForm: React.FC = () => {
 					<IonInput
 						disabled
 						type='number'
-						value={currentUser.data.usersSellerInfo.ruc}></IonInput>
+						value={currentUser.data.userSeller.ruc}></IonInput>
 					<IonIcon slot='start' icon={businessOutline} />
 				</IonItem>
 
 				<IonItem className='mt-3'>
 					<IonLabel position='stacked'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Year Stablished'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
 					<IonInput
-						value={currentUser.data.usersSellerInfo.yearStablished}
+						value={currentUser.data.userSeller.yearStablished}
 						onIonInput={(e: any) => {
 							setFieldValue('yearStablished', e.target.value);
 						}}
@@ -135,16 +119,16 @@ const BusinessProfileForm: React.FC = () => {
 				</IonItem>
 				<IonItem className='mt-3'>
 					<IonLabel position='stacked'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Foundation Year'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
 					<IonInput
-						value={currentUser.data.usersSellerInfo.foundationYear}
+						value={currentUser.data.userSeller.foundationYear}
 						onIonInput={(e: any) => {
 							setFieldValue('foundationYear', e.target.value);
 						}}
@@ -159,53 +143,23 @@ const BusinessProfileForm: React.FC = () => {
 
 				<IonItem className='mt-3'>
 					<IonLabel position='stacked' className='mb-2'>
-						<Trasnlator
+						<Translator
 							from='en'
-							to={currentUser.data.preferredLanguage|| 'en'}
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Description'
 							returnText={true}
 							onTextTranslated={() => {}}
 						/>
 					</IonLabel>
-					<Editor
-						editorState={editorState}
-						toolbarClassName='toolbarClassName'
-						wrapperClassName='wrapperClassName'
-						editorClassName='editorClassName'
-						onEditorStateChange={eventEditor}
-						toolbar={{
-							options: [
-								'history',
-								,
-								'blockType',
-								'inline',
-								'list',
-								'textAlign',
-							],
-							inline: {
-								options: ['bold', 'italic', 'underline'],
-							},
-							list: {
-								options: ['unordered', 'ordered'],
-							},
-							textAlign: {
-								options: ['left', 'center', 'right'],
-							},
-							blockType: {
-								inDropdown: true,
-								options: [
-									'Normal',
-									'H1',
-									'H2',
-									'H3',
-									'H4',
-									'H5',
-									'H6',
-									'Blockquote',
-								],
-							},
-						}}
-					/>
+					<div className='my-2'>
+						<MarkDownEditor
+							onTextChange={(e: any) => {
+								setFieldValue('detail', e);
+							}}
+							defaultValue=''
+							showRenderContent={false}
+						/>
+					</div>
 				</IonItem>
 
 				<IonButton
@@ -215,9 +169,9 @@ const BusinessProfileForm: React.FC = () => {
 					disabled={Object.entries(errors).length !== 0}
 					expand='block'
 					className='mt-4 ion-button-full-rounded ion-text-capitalize fw-bold'>
-					<Trasnlator
+					<Translator
 						from='en'
-						to={currentUser.data.preferredLanguage|| 'en'}
+						to={currentUser.data.preferredLanguage || 'en'}
 						text='Save'
 						returnText={true}
 						onTextTranslated={() => {}}

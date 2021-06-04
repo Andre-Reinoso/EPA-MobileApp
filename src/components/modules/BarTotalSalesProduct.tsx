@@ -1,8 +1,9 @@
 import React from 'react';
 import { IonRow, IonCol, IonText, IonGrid } from '@ionic/react';
-import { BarChart } from '../elements';
+
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
+import Translator from './../elements/Translator';
+import BarChart from '../elements/BarChart';
 interface BarTotalSalesProductType {
 	data: any;
 }
@@ -18,9 +19,9 @@ const BarTotalSalesProduct = ({ data }: BarTotalSalesProductType) => {
 						<IonCol>
 							<p className='ion-text-center m-0 my-2 fw-bolder'>
 								<IonText color='light'>
-									<Trasnlator
+									<Translator
 										from='en'
-										to={currentUser.data.preferredLanguage|| 'en'}
+										to={currentUser.data.preferredLanguage || 'en'}
 										text='Total sales'
 										returnText={true}
 										onTextTranslated={() => {}}

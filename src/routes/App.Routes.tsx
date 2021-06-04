@@ -13,29 +13,12 @@ import {
 	SelectLanguage,
 	SignUp,
 	Welcome,
+	MyAlerts,
+	SearchProduct,
 } from './../pages/';
 
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
-
-/* Theme variables */
-import '../theme/variables.css';
-
-import { useEffect, useContext, useState } from 'react';
-import { auth, db } from './../services/firebase/firebase.config';
+import { useEffect, useContext } from 'react';
+import { auth } from './../config/Firebase.config';
 import { UserContext } from '../context/User.Context';
 import { Redirect, Route } from 'react-router-dom';
 import {
@@ -47,7 +30,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import PrivateRoute from './Private.Routes';
 import PublicRoute from './Public.Routes';
-import { translateText } from './../services/translate/';
+import UserService from '../services/UseCases/User.Service';
 
 const App: React.FC = () => {
 	const { currentUser, login, logout } = useContext(UserContext);
@@ -57,15 +40,17 @@ const App: React.FC = () => {
 
 	async function authenticateUser(user: any) {
 		try {
+			const { getUserById, getUserSellerById } = new UserService();
+
 			presentLoading({
 				message: 'Loading ...',
 				translucent: true,
 				spinner: 'bubbles',
 				id: 'loadingSpiner',
 			});
-			const userResult = await db.collection('users').doc(user.uid).get();
+			const userResult = await getUserById(user.uid);
 
-			if (userResult.data()?.status !== 'active') {
+			if (userResult.status !== 'active') {
 				present({
 					buttons: [
 						{
@@ -81,26 +66,17 @@ const App: React.FC = () => {
 				logout();
 			} else {
 				let userData = {};
-				if (userResult.data()?.isSeller === true) {
-					const usersSellerResult = await db
-						.collection('usersSeller')
-						.where('userId', '==', user.uid)
-						.get();
-
-					usersSellerResult.forEach((doc) => {
-						userData = {
-							uid: user.uid,
-							...userResult.data(),
-							usersSellerInfo: {
-								docId: doc.id,
-								...doc.data(),
-							},
-						};
-					});
+				if (userResult.isSeller === true) {
+					const usersSellerResult = await getUserSellerById(user.uid);
+					userData = {
+						...userResult,
+						userSeller: {
+							...usersSellerResult,
+						},
+					};
 				} else {
 					userData = {
-						uid: user.uid,
-						...userResult.data(),
+						...userResult,
 					};
 				}
 
@@ -110,7 +86,7 @@ const App: React.FC = () => {
 		} catch (error) {
 			presentCollection({
 				buttons: [{ text: 'Hide', handler: () => dismissCollection() }],
-				message: await translateText(error.message, 'en', 'es'),
+				message: error.message,
 			});
 			dismissLoading();
 		}
@@ -163,12 +139,24 @@ const App: React.FC = () => {
 						path='/selectCategory'
 						component={SelectCategory}
 					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/searchProduct/:name'
+						component={SearchProduct}
+					/>
 
 					<PrivateRoute
 						authenticated={currentUser.auth}
 						exact
 						path='/marketPlace'
 						component={MarketPlace}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/myAlerts'
+						component={MyAlerts}
 					/>
 					<PrivateRoute
 						authenticated={currentUser.auth}

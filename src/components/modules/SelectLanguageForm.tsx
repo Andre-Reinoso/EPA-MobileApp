@@ -7,12 +7,11 @@ import {
 	IonButton,
 	IonIcon,
 } from '@ionic/react';
-import { getAllLanguages } from './../../services/translate/';
-import { Plugins } from '@capacitor/core';
-import { db } from '../../services/firebase/firebase.config';
 import { UserContext } from '../../context/User.Context';
 import { useHistory } from 'react-router-dom';
 import { arrowForwardOutline } from 'ionicons/icons';
+import TranslateService from '../../services/Translate/Translate.Service';
+import UserService from '../../services/UseCases/User.Service';
 
 interface langaugeType {
 	iso639_1: string;
@@ -24,25 +23,29 @@ interface langaugeType {
 
 const SelectLanguageForm: React.FC = () => {
 	const { currentUser, updateCurrentUser } = useContext(UserContext);
+	const history = useHistory();
 
 	const [selectedLanguage, setSelectecLanguage] = useState(
 		currentUser.data.preferredLanguage
 	);
 	const [languages, setLanguages] = useState<[langaugeType]>();
-	const history = useHistory();
 
-	function routeToWelcome() {
-		db.collection('users')
-			.doc(currentUser.data.uid)
-			.update({ preferredLanguage: selectedLanguage })
-			.then((result) => {
-				updateCurrentUser('preferredLanguage', selectedLanguage);
-				history.push('/welcome');
-			});
+	async function routeToWelcome() {
+		try {
+			const { updateFieldUser } = new UserService();
+			await updateFieldUser(
+				'preferredLanguage',
+				selectedLanguage,
+				currentUser.data.userId
+			);
+			updateCurrentUser('preferredLanguage', selectedLanguage);
+			history.push('/welcome');
+		} catch (error) {}
 	}
 
 	useEffect(() => {
 		try {
+			const { getAllLanguages } = new TranslateService();
 			getAllLanguages().then((result) => {
 				setLanguages(result);
 			});
@@ -57,12 +60,12 @@ const SelectLanguageForm: React.FC = () => {
 				return (
 					<IonCard
 						className='my-3'
-						color={`${selectedLanguage === iso639_1 ? 'primary' : 'light'}`}
+						color={`${selectedLanguage === iso639_1 ? 'primary' : ''}`}
 						key={index}
 						onClick={() => {
 							setSelectecLanguage(iso639_1);
 						}}>
-						<IonItem color='transparent'>
+						<IonItem color='transparent' lines="none">
 							<IonAvatar slot='start'>
 								<img src={`${flag}`} />
 							</IonAvatar>

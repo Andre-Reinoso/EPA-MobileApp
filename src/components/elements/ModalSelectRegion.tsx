@@ -12,8 +12,8 @@ import {
 	IonButtons,
 	IonNote,
 } from '@ionic/react';
-import { getRegionsByCode } from '../../services/epaApi';
-import { Trasnlator } from './../elements/';
+import EpaService from '../../services/EPA/Epa.Service';
+import Translator from './Translator';
 import { UserContext } from '../../context/User.Context';
 
 interface selectedRegionType {
@@ -33,19 +33,13 @@ const ModalSelectRegion = ({
 	const [regions, setRegions] = useState<Array<any>>([]);
 	const [selectedRegion, setSelectedRegion] = useState<selectedRegionType>();
 	const { currentUser } = React.useContext(UserContext);
+
 	useEffect(() => {
-		let isCancelled = false;
-		if (alpha2Code !== undefined) {
-			getRegionsByCode(alpha2Code).then((result) => {
-				if (!isCancelled) {
-					setRegions(result);
-				}
-			});
-		}
-		return () => {
-			isCancelled = true;
-		};
-	}, [alpha2Code, regions]);
+		const { getRegionsByCode } = new EpaService();
+		getRegionsByCode(alpha2Code).then((result) => {
+			setRegions(result);
+		});
+	}, []);
 
 	return (
 		<>
@@ -60,7 +54,7 @@ const ModalSelectRegion = ({
 									onClick={() => {
 										setShowModalregions(false);
 									}}>
-									<Trasnlator
+									<Translator
 										from='en'
 										to={currentUser.data.preferredLanguage || 'en'}
 										text='Save'
@@ -96,14 +90,14 @@ const ModalSelectRegion = ({
 
 			<IonButton
 				className='ion-text-capitalize ion-text-size-xs'
-				color='dark'
+				color='medium'
 				expand='full'
 				fill='clear'
 				onClick={() => setShowModalregions(true)}>
 				{selectedRegion?.name ? (
 					<>{selectedRegion?.name}</>
 				) : (
-					<Trasnlator
+					<Translator
 						from='en'
 						to={currentUser.data.preferredLanguage || 'en'}
 						text='Select Region'

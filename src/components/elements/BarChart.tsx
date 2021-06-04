@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import {
-	IonGrid,
-	IonCol,
-	IonRow,
-	IonAvatar,
-	IonImg,
-	IonText,
-} from '@ionic/react';
+import React from 'react';
+
 import { Bar } from 'react-chartjs-2';
 
 interface DashboardBarChartType {
 	data: any;
 }
 
-const DashboardBarChart = ({ data }: DashboardBarChartType) => {
+const BarChart = ({ data }: DashboardBarChartType) => {
 	return (
 		<div>
 			<Bar
@@ -41,4 +34,4 @@ const DashboardBarChart = ({ data }: DashboardBarChartType) => {
 		</div>
 	);
 };
-export default DashboardBarChart;
+export default BarChart;

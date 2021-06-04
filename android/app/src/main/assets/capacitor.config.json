@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "EPA",
+  "appName": "EPA-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

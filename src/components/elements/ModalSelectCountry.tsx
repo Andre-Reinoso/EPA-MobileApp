@@ -13,8 +13,8 @@ import {
 	IonNote,
 } from '@ionic/react';
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
-import { getCountries } from '../../services/epaApi';
+import Translator from './../elements/Translator';
+import EpaService from '../../services/EPA/Epa.Service';
 
 interface selectedCountryType {
 	nativeName: string;
@@ -39,16 +39,11 @@ const ModalSelectCountry = ({
 	const { currentUser } = React.useContext(UserContext);
 
 	useEffect(() => {
-		let isCancelled = false;
-		getCountries().then((result) => {
-			if (!isCancelled) {
-				setCountries(result);
-			}
+		const { getAllCountries } = new EpaService();
+		getAllCountries().then((result) => {
+			setCountries(result);
 		});
-		return () => {
-			isCancelled = true;
-		};
-	}, [countries, setCountries]);
+	}, []);
 
 	return (
 		<>
@@ -67,7 +62,7 @@ const ModalSelectCountry = ({
 									onClick={() => {
 										setShowModalCountries(false);
 									}}>
-									<Trasnlator
+									<Translator
 										from='en'
 										to={currentUser.data.preferredLanguage || 'en'}
 										text='Save'
@@ -106,7 +101,7 @@ const ModalSelectCountry = ({
 
 			<IonButton
 				className='ion-text-capitalize ion-text-size-xs '
-				color='dark'
+				color='medium'
 				expand='full'
 				fill='clear'
 				onClick={() => setShowModalCountries(true)}>
@@ -121,7 +116,7 @@ const ModalSelectCountry = ({
 						{selectedCountry?.nativeName}
 					</>
 				) : (
-					<Trasnlator
+					<Translator
 						from='en'
 						to={currentUser.data.preferredLanguage || 'en'}
 						text='Select Country'

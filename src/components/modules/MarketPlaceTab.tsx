@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { IonGrid, IonCol, IonRow, IonText } from '@ionic/react';
-import { MarketPlaceTabContext } from './../../context/MarketPlaceTab.Context';
+import { MarketPlaceTabContext } from '../../context/MarketPlaceTab.Context';
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
+import Trasnlator from '../elements/Translator';
 const MarketPlaceTab = () => {
 	const { selectedTab, setTab } = useContext(MarketPlaceTabContext);
 	const { currentUser } = React.useContext(UserContext);
@@ -22,10 +22,10 @@ const MarketPlaceTab = () => {
 									: 'ion-text-size-sm fw-bolder'
 							}  ion-text-center  m-0`}>
 							<IonText
-								color={`${selectedTab === 'Products' ? 'dark' : 'medium'}`}>
+								color={`${selectedTab === 'Products' ? '' : 'medium'}`}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage|| 'en'}
+									to={currentUser.data.preferredLanguage || 'en'}
 									text='Products'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -44,10 +44,10 @@ const MarketPlaceTab = () => {
 									: 'ion-text-size-sm fw-bolder'
 							}  ion-text-center  m-0`}>
 							<IonText
-								color={`${selectedTab === 'Favorites' ? 'dark' : 'medium'}`}>
+								color={`${selectedTab === 'Favorites' ? '' : 'medium'}`}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage|| 'en'}
+									to={currentUser.data.preferredLanguage || 'en'}
 									text='Favorites'
 									returnText={true}
 									onTextTranslated={() => {}}
@@ -66,10 +66,10 @@ const MarketPlaceTab = () => {
 									: 'ion-text-size-sm fw-bolder'
 							}  ion-text-center  m-0`}>
 							<IonText
-								color={`${selectedTab === 'New Products' ? 'dark' : 'medium'}`}>
+								color={`${selectedTab === 'New Products' ? '' : 'medium'}`}>
 								<Trasnlator
 									from='en'
-									to={currentUser.data.preferredLanguage|| 'en'}
+									to={currentUser.data.preferredLanguage || 'en'}
 									text='New Products'
 									returnText={true}
 									onTextTranslated={() => {}}

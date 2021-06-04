@@ -1,9 +1,10 @@
 import React from 'react';
 import { IonRow, IonCol, IonText, IonGrid } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-import { BarChart } from './../elements/';
 import { UserContext } from '../../context/User.Context';
-import { Trasnlator } from './../elements/';
+import Translator from '../elements/Translator';
+import BarChart from '../elements/BarChart';
+
 interface TotalSalesDashboardType {
 	totalValue: string;
 	dashboardBarChartData: any;
@@ -25,9 +26,9 @@ const TotalSalesDashboard = ({
 							<div className='p-3'>
 								<IonText color='light'>
 									<p className='ion-text-size-md my-1'>
-										<Trasnlator
+										<Translator
 											from='en'
-											to={currentUser.data.preferredLanguage|| 'en'}
+											to={currentUser.data.preferredLanguage || 'en'}
 											text='Total sales'
 											returnText={true}
 											onTextTranslated={() => {}}
