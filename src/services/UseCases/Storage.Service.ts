@@ -32,6 +32,24 @@ class StorageService {
 		}
 	}
 
+	async uploadFileFromString(
+		base64String: string,
+		fileExtention: string,
+		path: string
+	) {
+		try {
+			const fileName = uuidv4().toString().replace(/-/g, '');
+			await storage
+				.ref(`${path}/${fileName}.${fileExtention}`)
+				.putString(base64String, 'base64', {
+					contentType: `image/${fileExtention}`,
+				});
+			return fileName + '.' + fileExtention;
+		} catch (error) {
+			throw new Error(error);
+		}
+	}
+
 	async getDownloadURL(fileName: string, path: string): Promise<string> {
 		try {
 			const url = await storage

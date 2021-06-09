@@ -19,7 +19,7 @@ const Translator = (props: transtaldorType) => {
 			onTextTranslated(translated);
 			setTranslatedText(translated);
 		});
-	}, [to]);
+	}, [to,text]);
 
 	return <>{returnText && translatedText}</>;
 };

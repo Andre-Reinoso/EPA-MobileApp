@@ -6,7 +6,6 @@ import {
 	IonLabel,
 	IonIcon,
 	IonButtons,
-	IonToggle,
 } from '@ionic/react';
 import {
 	albumsOutline,
@@ -15,8 +14,6 @@ import {
 	cubeOutline,
 	languageOutline,
 	paperPlaneOutline,
-	moon,
-	sunny,
 	pushOutline,
 } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
@@ -116,7 +113,7 @@ const DashboardActionList = () => {
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 
-			<IonItem
+			{/* <IonItem
 				onClick={() => {
 					history.push('/selectCategory');
 				}}>
@@ -143,7 +140,7 @@ const DashboardActionList = () => {
 					/>
 				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
-			</IonItem>
+			</IonItem> */}
 
 			<IonItem
 				onClick={() => {

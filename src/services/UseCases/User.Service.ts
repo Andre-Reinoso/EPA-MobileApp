@@ -76,6 +76,21 @@ class UserService {
 			throw new Error(error);
 		}
 	}
+	async getUsersSeller(): Promise<Array<TypeUserSeller>> {
+		try {
+			let usersSeller: Array<TypeUserSeller> = [];
+			const user = await userSellerDatabaseReference.get();
+			user.forEach((user) => {
+				usersSeller.push({
+					...user.data(),
+				});
+			});
+			return usersSeller;
+		} catch (error) {
+			throw new Error(error);
+		}
+	}
+
 	async getUserSellerById(userId: string): Promise<TypeUserSeller> {
 		try {
 			let userSeller: TypeUserSeller = {};

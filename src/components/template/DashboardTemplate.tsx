@@ -29,7 +29,12 @@ const DashboardTemplate = () => {
 							height: '100%',
 						}}
 						className='ion-border-radius-sm'>
-						<IonImg src={logomarket} />
+						<IonImg
+							src={
+								auth.currentUser?.photoURL ||
+								'https://firebasestorage.googleapis.com/v0/b/explore-peru-from-abroad.appspot.com/o/Assets%2Fuser%20icon.png?alt=media&token=31e6e8ce-1a28-47d4-8fd8-b6c9b60b518b'
+							}
+						/>
 					</IonAvatar>
 				</IonCol>
 				<IonCol size='7'>

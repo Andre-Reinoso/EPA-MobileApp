@@ -24,13 +24,16 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { MarketPlaceFiltersProvider } from './context/MarketPlaceFilters.Context';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<UserProvider>
-			<MarketPlaceTabProvider>
-				<App />
-			</MarketPlaceTabProvider>
+			<MarketPlaceFiltersProvider>
+				<MarketPlaceTabProvider>
+					<App />
+				</MarketPlaceTabProvider>
+			</MarketPlaceFiltersProvider>
 		</UserProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
