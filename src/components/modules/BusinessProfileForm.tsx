@@ -7,6 +7,7 @@ import {
 	IonLabel,
 	IonList,
 	IonNote,
+	useIonLoading,
 } from '@ionic/react';
 
 import { businessOutline, calendarOutline } from 'ionicons/icons';
@@ -18,27 +19,38 @@ import { useFormik } from 'formik';
 import { db } from '../../config/Firebase.config';
 import Translator from '../elements/Translator';
 import MarkDownEditor from '../elements/MarkDownEditor';
+import UserService from '../../services/UseCases/User.Service';
+import { useHistory } from 'react-router';
 
 const BusinessProfileForm: React.FC = () => {
 	const { currentUser } = React.useContext(UserContext);
+	const [presentLoading, dismissLoading] = useIonLoading();
+	const history = useHistory();
 
 	async function updateBussinesProfileForm({
 		yearStablished,
 		foundationYear,
+		description,
 	}: any) {
 		try {
-			//year stablished fundation and description
-			await db
-				.collection('usersSeller')
-				.doc(currentUser.data.userSeller.userId)
-				.update({
-					yearStablished,
-					foundationYear,
-					/*description: draftToMarkdown(
-						convertToRaw(editorState.getCurrentContent())
-					),*/
-				});
-		} catch (error) {}
+			presentLoading({
+				message: 'Loading ...',
+				translucent: true,
+				spinner: 'bubbles',
+				id: 'loadingSpiner',
+			});
+			const { mergeUserSeller } = new UserService();
+			await mergeUserSeller(
+				{ yearStablished, foundationYear, description },
+				currentUser.data.userSeller.docId
+			);
+
+			dismissLoading();
+			history.goBack();
+		} catch (error) {
+			console.log(error);
+			dismissLoading();
+		}
 	}
 
 	const { values, isSubmitting, setFieldValue, handleSubmit, errors } =
@@ -46,6 +58,7 @@ const BusinessProfileForm: React.FC = () => {
 			initialValues: {
 				yearStablished: '',
 				foundationYear: '',
+				description: '',
 			},
 			onSubmit: () => {
 				if (Object.entries(errors).length === 0) {
@@ -53,8 +66,9 @@ const BusinessProfileForm: React.FC = () => {
 				}
 			},
 			validationSchema: Yup.object({
-				yearStablished: Yup.date().required('Required field'),
-				foundationYear: Yup.date().required('Required field'),
+				yearStablished: Yup.date(),
+				foundationYear: Yup.date(),
+				description: Yup.string(),
 			}),
 		});
 
@@ -154,11 +168,16 @@ const BusinessProfileForm: React.FC = () => {
 					<div className='my-2'>
 						<MarkDownEditor
 							onTextChange={(e: any) => {
-								setFieldValue('detail', e);
+								setFieldValue('description', e);
 							}}
-							defaultValue=''
+							defaultValue={currentUser.data.userSeller.description || ''}
 							showRenderContent={false}
 						/>
+						{errors.description && (
+							<IonNote color='danger'>
+								{errors.description ? errors.description : ''}
+							</IonNote>
+						)}
 					</div>
 				</IonItem>
 

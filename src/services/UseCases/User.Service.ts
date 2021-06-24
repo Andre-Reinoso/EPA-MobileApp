@@ -27,6 +27,7 @@ interface TypeCreateUser {
 
 interface TypeUser {
 	userId?: string;
+	email?:string
 	phoneNumber?: string;
 	firstName?: string;
 	lastName?: string;
@@ -42,6 +43,7 @@ interface TypeUser {
 }
 
 interface TypeUserSeller {
+	docId?: string;
 	userId?: string;
 	ruc?: string;
 	companyName?: string;
@@ -63,6 +65,16 @@ class UserService {
 	async updateFieldUser(field: string, value: any, userId: string) {
 		try {
 			return await userDatabaseReference.doc(userId).update({ [field]: value });
+		} catch (error) {
+			throw new Error(error);
+		}
+	}
+
+	async mergeUserSeller(value: any, userId: string) {
+		try {
+			return await userSellerDatabaseReference
+				.doc(userId)
+				.set({ ...value }, { merge: true });
 		} catch (error) {
 			throw new Error(error);
 		}
@@ -99,7 +111,7 @@ class UserService {
 				.get();
 			user.forEach((user) => {
 				userSeller = {
-					userId: user.id,
+					docId: user.id,
 					...user.data(),
 				};
 			});

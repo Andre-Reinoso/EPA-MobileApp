@@ -14,12 +14,15 @@ interface TypeProduct {
 	gallery?: Array<string>;
 	status?: string;
 }
+function generateId() {
+	let ref = productDatabaseReference.doc();
+	return ref.id;
+}
 
 class ProductService {
 	async addProduct(product: TypeProduct) {
 		try {
-			console.log(product);
-			return await productDatabaseReference.doc().set(product);
+			return await productDatabaseReference.doc(generateId()).set(product);
 		} catch (error) {
 			throw new Error(error);
 		}
@@ -45,6 +48,13 @@ class ProductService {
 		try {
 			const product: any = await productDatabaseReference.doc(productId).get();
 			return { productId: product.id, ...product.data() };
+		} catch (error) {
+			throw new Error(error);
+		}
+	}
+	async deleteProductById(productId: string) {
+		try {
+			await productDatabaseReference.doc(productId).delete();
 		} catch (error) {
 			throw new Error(error);
 		}

@@ -109,6 +109,7 @@ const SignUpBuyerForm: React.FC = () => {
 					{
 						phoneNumber,
 						firstName,
+						email,
 						lastName,
 						isSeller: false,
 						status: 'active',

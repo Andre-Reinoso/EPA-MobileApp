@@ -59,6 +59,7 @@ const SignUpSellerForm: React.FC = () => {
 			const { user } = await signUpUser({ email, password });
 			await createUser(
 				{
+					email,
 					firstName,
 					lastName,
 					phoneNumber,

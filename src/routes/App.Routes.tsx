@@ -15,6 +15,8 @@ import {
 	Welcome,
 	MyAlerts,
 	SearchProduct,
+	UpdateProduct,
+	MyQuotes,
 } from './../pages/';
 
 import { useEffect, useContext } from 'react';
@@ -203,6 +205,18 @@ const App: React.FC = () => {
 						component={MyChats}
 					/>
 
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/updateProduct/:productId'
+						component={UpdateProduct}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/myQuotes'
+						component={MyQuotes}
+					/>
 					<Route exact path='/' render={() => <Redirect to='/login' />} />
 				</IonRouterOutlet>
 			</IonReactRouter>

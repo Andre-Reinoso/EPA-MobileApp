@@ -15,6 +15,7 @@ import {
 	languageOutline,
 	paperPlaneOutline,
 	pushOutline,
+	chatboxOutline,
 } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../context/User.Context';
@@ -112,36 +113,36 @@ const DashboardActionList = () => {
 				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
+			
+				<IonItem
+					onClick={() => {
+						history.push('/myQuotes');
+					}}>
+					<IonButtons slot='start'>
+						<IonButton
+							style={{
+								backgroundColor: '#3dc2ff',
+								borderRadius: '50%',
+								color: 'white',
+								width: '40px',
+								height: '40px',
+							}}>
+							<IonIcon icon={albumsOutline} />
+						</IonButton>
+					</IonButtons>
 
-			{/* <IonItem
-				onClick={() => {
-					history.push('/selectCategory');
-				}}>
-				<IonButtons slot='start'>
-					<IonButton
-						style={{
-							backgroundColor: '#3dc2ff',
-							borderRadius: '50%',
-							color: 'white',
-							width: '40px',
-							height: '40px',
-						}}>
-						<IonIcon icon={albumsOutline} />
-					</IonButton>
-				</IonButtons>
-
-				<IonLabel>
-					<Translator
-						from='en'
-						to={currentUser.data.preferredLanguage || 'en'}
-						text='Preferred categories'
-						returnText={true}
-						onTextTranslated={() => {}}
-					/>
-				</IonLabel>
-				<IonIcon icon={chevronForwardOutline} />
-			</IonItem> */}
-
+					<IonLabel>
+						<Translator
+							from='en'
+							to={currentUser.data.preferredLanguage || 'en'}
+							text='Quotes'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
+					<IonIcon icon={chevronForwardOutline} />
+				</IonItem>
+		
 			<IonItem
 				onClick={() => {
 					history.push('/myChats');
@@ -155,7 +156,7 @@ const DashboardActionList = () => {
 							width: '40px',
 							height: '40px',
 						}}>
-						<IonIcon icon={paperPlaneOutline} />
+						<IonIcon icon={chatboxOutline} />
 					</IonButton>
 				</IonButtons>
 

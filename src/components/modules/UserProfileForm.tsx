@@ -12,18 +12,19 @@ import {
 	mailOutline,
 	phonePortraitOutline,
 	personOutline,
-	earthOutline,
 	golfOutline,
 } from 'ionicons/icons';
 import { UserContext } from '../../context/User.Context';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Translator from '../elements/Translator';
-import { db, auth } from '../../config/Firebase.config';
+import { auth } from '../../config/Firebase.config';
+import UserService from '../../services/UseCases/User.Service';
+import { useHistory } from 'react-router';
 
 const UserProfileForm: React.FC = () => {
-	const { currentUser } = React.useContext(UserContext);
-
+	const { currentUser, updateCurrentUser } = React.useContext(UserContext);
+	const history = useHistory();
 	const { values, isSubmitting, setFieldValue, handleSubmit, errors } =
 		useFormik({
 			initialValues: {
@@ -41,11 +42,19 @@ const UserProfileForm: React.FC = () => {
 			}),
 		});
 
-	async function updateProfileForm({}) {
+	async function updateProfileForm({ province, district }: any) {
 		try {
-			//actualizar country region distric province
-			await db.collection('users').doc(currentUser.data.uid).update({});
-		} catch (error) {}
+			const { updateFieldUser } = new UserService();
+			updateFieldUser('province', province, currentUser.data.userId);
+			updateFieldUser('district', district, currentUser.data.userId);
+
+			updateCurrentUser('province', province);
+			updateCurrentUser('district', district);
+
+			history.goBack();
+		} catch (error) {
+			history.goBack();
+		}
 	}
 
 	return (
@@ -124,6 +133,41 @@ const UserProfileForm: React.FC = () => {
 						<Translator
 							from='en'
 							to={currentUser.data.preferredLanguage || 'en'}
+							text='Country'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
+					<IonInput
+						required
+						type='text'
+						disabled
+						value={currentUser.data.country.nativeName}></IonInput>
+					<IonIcon slot='start' icon={personOutline} />
+				</IonItem>
+
+				<IonItem className='mt-3'>
+					<IonLabel position='floating'>
+						<Translator
+							from='en'
+							to={currentUser.data.preferredLanguage || 'en'}
+							text='Country'
+							returnText={true}
+							onTextTranslated={() => {}}
+						/>
+					</IonLabel>
+					<IonInput
+						required
+						type='text'
+						disabled
+						value={currentUser.data.deparment.name}></IonInput>
+					<IonIcon slot='start' icon={personOutline} />
+				</IonItem>
+				<IonItem className='mt-3'>
+					<IonLabel position='floating'>
+						<Translator
+							from='en'
+							to={currentUser.data.preferredLanguage || 'en'}
 							text='Province'
 							returnText={true}
 							onTextTranslated={() => {}}
@@ -132,6 +176,7 @@ const UserProfileForm: React.FC = () => {
 					<IonInput
 						color={errors.province ? 'danger' : 'default'}
 						type='text'
+						value={currentUser.data.province}
 						onIonInput={(e: any) => {
 							setFieldValue('province', e.target.value);
 						}}></IonInput>
@@ -156,6 +201,7 @@ const UserProfileForm: React.FC = () => {
 					<IonInput
 						color={errors.district ? 'danger' : 'default'}
 						type='text'
+						value={currentUser.data.district}
 						onIonInput={(e: any) => {
 							setFieldValue('district', e.target.value);
 						}}></IonInput>

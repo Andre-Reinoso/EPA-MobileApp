@@ -15,9 +15,17 @@ import Translator from './../elements/Translator';
 import { auth } from '../../config/Firebase.config';
 import DashboardActionList from '../modules/DashboardActionList';
 import TotalSalesDashboard from '../modules/TotalSalesDashboard';
+import { DashboardContext } from '../../context/Dashboard.Context';
 
 const DashboardTemplate = () => {
 	const { currentUser } = useContext(UserContext);
+	const {
+		totalSalesDashboardValue,
+		dashboardChartData,
+		quantity1,
+		quantity2,
+		quantity3,
+	} = useContext(DashboardContext);
 
 	return (
 		<>
@@ -71,14 +79,14 @@ const DashboardTemplate = () => {
 				<IonCol>
 					<div className='ion-text-center'>
 						<IonText color='' className='fw-bolder'>
-							100
+							{quantity1}
 						</IonText>
 						<br />
 						<IonText color='medium'>
 							<Translator
 								from='en'
 								to={currentUser.data.preferredLanguage || 'en'}
-								text='Cantidad'
+								text='Quantity'
 								returnText={true}
 								onTextTranslated={() => {}}
 							/>
@@ -88,14 +96,14 @@ const DashboardTemplate = () => {
 				<IonCol>
 					<div className='ion-text-center'>
 						<IonText color='' className='fw-bolder'>
-							350
+							{quantity2}
 						</IonText>
 						<br />
 						<IonText color='medium'>
 							<Translator
 								from='en'
 								to={currentUser.data.preferredLanguage || 'en'}
-								text='Cantidad'
+								text='Quantity'
 								returnText={true}
 								onTextTranslated={() => {}}
 							/>
@@ -105,14 +113,14 @@ const DashboardTemplate = () => {
 				<IonCol>
 					<div className='ion-text-center'>
 						<IonText color='' className='fw-bolder'>
-							250
+							{quantity3}
 						</IonText>
 						<br />
 						<IonText color='medium'>
 							<Translator
 								from='en'
 								to={currentUser.data.preferredLanguage || 'en'}
-								text='Cantidad'
+								text='Quantity'
 								returnText={true}
 								onTextTranslated={() => {}}
 							/>
@@ -122,7 +130,7 @@ const DashboardTemplate = () => {
 			</IonRow>
 
 			<TotalSalesDashboard
-				totalValue={'120k'}
+				totalValue={`${totalSalesDashboardValue}k`}
 				dashboardBarChartData={{
 					labels: [
 						'Ene',
@@ -141,7 +149,7 @@ const DashboardTemplate = () => {
 					datasets: [
 						{
 							label: '# of Red Votes',
-							data: [18, 16, 20, 17, 14, 17, 19, 14, 20, 15, 14, 13],
+							data: dashboardChartData,
 							backgroundColor: [
 								'rgb(255, 255, 255)',
 								'rgba(255, 255, 255, 0.5)',

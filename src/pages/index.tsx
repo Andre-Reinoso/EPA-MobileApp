@@ -13,6 +13,8 @@ import SignUp from './SignUp';
 import Welcome from './Welcome';
 import MyAlerts from './MyAlerts';
 import SearchProduct from './SearchProduct';
+import UpdateProduct from './UpdateProduct';
+import MyQuotes from './MyQuotes';
 
 export {
 	Login,
@@ -30,4 +32,6 @@ export {
 	Welcome,
 	MyAlerts,
 	SearchProduct,
+	UpdateProduct,
+	MyQuotes,
 };

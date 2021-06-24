@@ -21,6 +21,6 @@ const Translator = (props: transtaldorType) => {
 		});
 	}, [to,text]);
 
-	return <>{returnText && translatedText}</>;
+	return <>{returnText && translatedText ?translatedText:text}</>;
 };
 export default Translator;

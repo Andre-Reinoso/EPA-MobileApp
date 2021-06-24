@@ -11,58 +11,65 @@ const FavoriteProducts: React.FC = () => {
 	const [favoriteProducts, setFavoriteProducts] = useState<Array<any>>([]);
 	const [loading, setloading] = useState(true);
 	const { currentUser } = useContext(UserContext);
-	let listOfProducts: Array<any> = currentUser.data.favoriteProduct;
-	const idsFavoriteProducts: Array<any> = currentUser.data.favoriteProduct;
-
+	const favoriteProductsIds: Array<string> = currentUser.data.favoriteProduct;
 	useEffect(() => {
-		if (idsFavoriteProducts.length !== 0) {
-			let allFavoriteProducts: any = [];
-			for (let index = 0; index < idsFavoriteProducts.length; index++) {
-				db.collection('products')
-					.doc(idsFavoriteProducts[index])
-					.get()
-					.then((result) => {
+		if (favoriteProductsIds.length !== 0) {
+			db.collection('products')
+				.where('productId', 'in', favoriteProductsIds)
+				.get()
+				.then((result) => {
+					let allFavoriteProducts: any = [];
+					result.forEach((products) => {
 						allFavoriteProducts.push({
-							productId: result.id,
-							...result.data(),
+							...products.data(),
 						});
-					})
-					.catch((err) => {});
-			}
-			console.log(allFavoriteProducts);
-			setFavoriteProducts(allFavoriteProducts);
-			setloading(false);
+					});
+					setFavoriteProducts(allFavoriteProducts);
+					setloading(false);
+				})
+				.catch((err) => {
+					console.log(err);
+					setloading(false);
+				});
+			// db.collection('products')
+			// 	.where('productId', 'in', favoriteProductsIds)
+			// 	.onSnapshot((result) => {
+			// 		let allFavoriteProducts: any = [];
+			// 		result.forEach((products) => {
+			// 			allFavoriteProducts.push({ ...products.data() });
+			// 		});
+			// 		setFavoriteProducts(allFavoriteProducts);
+			// 		setloading(false);
+			// 	});
 		}
-		setloading(false);
-	}, [listOfProducts]);
+	}, [favoriteProducts]);
 
 	return (
 		<>
 			<IonRow>
 				<IonCol>
-					{idsFavoriteProducts.length === 0 && <h1>no products</h1>}
-
+					{favoriteProductsIds.length === 0 && (
+						<h1>You don't have favorite products</h1>
+					)}
 					{loading ? (
 						<div className='ion-text-center'>
 							<IonSpinner color='primary' />
 						</div>
 					) : (
-						favoriteProducts?.map(
-							({ name, description, image, price, productId }: any, i) => {
-								return (
-									<MarketPlaceProductCard
-										key={i}
-										title={name}
-										description={description}
-										img={image}
-										price={price}
-										onClick={() => {
-											history.push(`/productDetail/${productId}`);
-										}}
-									/>
-								);
-							}
-						)
+						favoriteProducts.map((product, i) => {
+							return (
+								<MarketPlaceProductCard
+									key={i}
+									title={product.name}
+									description={product.description}
+									img={product.image}
+									price={product.price}
+									onClick={() => {
+										history.push(`/productDetail/${product.productId}`);
+									}}
+								/>
+							);
+						})
 					)}
 				</IonCol>
 			</IonRow>

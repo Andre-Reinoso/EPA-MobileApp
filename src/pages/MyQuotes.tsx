@@ -14,11 +14,12 @@ import {
 import { chevronBackOutline, addOutline } from 'ionicons/icons';
 import Translator from '../components/elements/Translator';
 import { UserContext } from '../context/User.Context';
-import MyChatsTemplate from '../components/template/MyChats.Template';
+import { useHistory } from 'react-router-dom';
+import MyQuotesTemplate from '../components/template/MyQuotes.Template';
 
-const MyChats: React.FC = () => {
+const MyQuotes: React.FC = () => {
+	const history = useHistory();
 	const { currentUser } = useContext(UserContext);
-
 	return (
 		<>
 			<IonPage>
@@ -27,7 +28,7 @@ const MyChats: React.FC = () => {
 						<IonToolbar color='primary'>
 							<IonButtons slot='start'>
 								<IonBackButton
-									defaultHref='/dashboard'
+									defaultHref='/marketPlace'
 									icon={chevronBackOutline}
 								/>
 							</IonButtons>
@@ -40,7 +41,7 @@ const MyChats: React.FC = () => {
 								<Translator
 									from='en'
 									to={currentUser.data.preferredLanguage || 'en'}
-									text='My Chats'
+									text='My Quotes'
 									returnText={true}
 									onTextTranslated={() => {}}
 								/>
@@ -48,7 +49,7 @@ const MyChats: React.FC = () => {
 						</IonToolbar>
 					</IonHeader>
 					<IonGrid>
-						<MyChatsTemplate/>
+						<MyQuotesTemplate />
 					</IonGrid>
 				</IonContent>
 			</IonPage>
@@ -56,4 +57,4 @@ const MyChats: React.FC = () => {
 	);
 };
 
-export default MyChats;
+export default MyQuotes;

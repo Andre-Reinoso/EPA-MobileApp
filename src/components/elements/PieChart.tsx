@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-	IonGrid,
-	IonCol,
-	IonRow,
-	IonAvatar,
-	IonImg,
-	IonText,
-} from '@ionic/react';
-import Chart, { Pie } from 'react-chartjs-2';
 
+import Chart, { Pie } from 'react-chartjs-2';
+import { DashboardContext } from '../../context/Dashboard.Context';
 interface DashboardBarChartType {
 	data: any;
 }
 
 const DashboardBarChart = ({ data }: DashboardBarChartType) => {
+	const { pieChartValue } = React.useContext(DashboardContext);
 	return (
 		<div>
 			<Pie
@@ -29,7 +23,7 @@ const DashboardBarChart = ({ data }: DashboardBarChartType) => {
 							ctx.font = fontSize + 'em sans-serif';
 							ctx.textBaseline = 'middle';
 							ctx.textColor = 'white';
-							var text = '75%',
+							var text = `${pieChartValue}%`,
 								textX = Math.round((width - ctx.measureText(text).width) / 2),
 								textY = height / 2;
 							ctx.fillStyle = 'rgba(255, 255, 255)';

@@ -11,13 +11,14 @@ import {
 	IonButton,
 	IonIcon,
 } from '@ionic/react';
-import { chevronBackOutline, addOutline } from 'ionicons/icons';
-import Translator from '../components/elements/Translator';
-import { UserContext } from '../context/User.Context';
-import MyChatsTemplate from '../components/template/MyChats.Template';
-
-const MyChats: React.FC = () => {
+import { chevronBackOutline, saveOutline } from 'ionicons/icons';
+import Translator from './../components/elements/Translator';
+import { UserContext } from './../context/User.Context';
+import UpdateProductTemplate from '../components/template/UpdateProduct.Teamplate';
+import { useParams } from 'react-router';
+const UpdateProduct: React.FC = () => {
 	const { currentUser } = useContext(UserContext);
+	
 
 	return (
 		<>
@@ -27,20 +28,24 @@ const MyChats: React.FC = () => {
 						<IonToolbar color='primary'>
 							<IonButtons slot='start'>
 								<IonBackButton
-									defaultHref='/dashboard'
+									defaultHref='/myProducts'
 									icon={chevronBackOutline}
 								/>
 							</IonButtons>
-							<IonButtons slot='secondary' style={{ color: 'transparent' }}>
+							<IonButtons slot='secondary'>
 								<IonButton>
-									<IonIcon slot='icon-only' icon={addOutline} />
+									<IonIcon
+										slot='icon-only'
+										icon={saveOutline}
+										style={{ color: 'transparent' }}
+									/>
 								</IonButton>
 							</IonButtons>
 							<IonTitle size='large' className='ion-text-center'>
 								<Translator
 									from='en'
 									to={currentUser.data.preferredLanguage || 'en'}
-									text='My Chats'
+									text='Update Product'
 									returnText={true}
 									onTextTranslated={() => {}}
 								/>
@@ -48,7 +53,7 @@ const MyChats: React.FC = () => {
 						</IonToolbar>
 					</IonHeader>
 					<IonGrid>
-						<MyChatsTemplate/>
+						<UpdateProductTemplate  />
 					</IonGrid>
 				</IonContent>
 			</IonPage>
@@ -56,4 +61,4 @@ const MyChats: React.FC = () => {
 	);
 };
 
-export default MyChats;
+export default UpdateProduct;

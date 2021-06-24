@@ -25,6 +25,7 @@ import SendMessageButton from '../elements/SendMessageButton';
 import ProductService from '../../services/UseCases/Product.Service';
 import MarkDownEditor from '../elements/MarkDownEditor';
 import parse from 'html-react-parser';
+import NewQuotation from '../elements/NewQuotation';
 interface ProductDetailType {
 	productId: string;
 }
@@ -50,6 +51,7 @@ const ProductDetailTemplate = ({ productId }: ProductDetailType) => {
 		getProductById(productId)
 			.then((result) => {
 				setProductDetailData(result);
+			//	console.log(result);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -121,10 +123,22 @@ const ProductDetailTemplate = ({ productId }: ProductDetailType) => {
 									onTextTranslated={() => {}}
 								/>
 							</h5>
-							{productDetailData.subcategory||"Without category"}
+							{productDetailData.subcategory || 'Without category'}
 
 							<hr />
-							<SendMessageButton />
+							<IonRow>
+								<IonCol>
+									<SendMessageButton />
+								</IonCol>
+								<IonCol>
+									<NewQuotation
+										price={productDetailData.price}
+										productId={productDetailData.productId}
+										productName={productDetailData.name}
+										userSellerId={productDetailData.userSellerId}
+									/>
+								</IonCol>
+							</IonRow>
 						</>
 					)}
 					{selectedContent === 'Suggested' && (

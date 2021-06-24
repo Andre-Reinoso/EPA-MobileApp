@@ -5,24 +5,33 @@ import {
 	IonLabel,
 	IonList,
 	IonRow,
-	IonSearchbar,
 	IonImg,
 	IonThumbnail,
 	IonIcon,
+	IonItemSliding,
+	IonItemOptions,
+	IonItemOption,
 } from '@ionic/react';
 import PieTotalSalesProduct from '../modules/PieTotalSalesProduct';
 import BarTotalSalesProduct from '../modules/BarTotalSalesProduct';
-import { cafe, chevronForwardOutline } from 'ionicons/icons';
-import { aceituna, chalina, chocolate1, oliva } from '../../utilities/assets';
+import { chevronForwardOutline, trashOutline } from 'ionicons/icons';
+
 import { UserContext } from '../../context/User.Context';
 import Translator from '../elements/Translator';
-import ProductService from '../../services/UseCases/Product.Service';
 import { db } from '../../config/Firebase.config';
+import { DashboardContext } from '../../context/Dashboard.Context';
+import { useHistory } from 'react-router';
+import ProductService from '../../services/UseCases/Product.Service';
 
 const MyProductsTemplate: React.FC = () => {
 	const { currentUser } = React.useContext(UserContext);
+	const history = useHistory();
 	const [myProducts, setMyProducts] = useState<Array<any>>();
 
+	const { dashboardChartData, quantity1, quantity2 } =
+		React.useContext(DashboardContext);
+
+	const { deleteProductById } = new ProductService();
 	useEffect(() => {
 		db.collection('products')
 			.where('userSellerId', '==', currentUser.data.userId)
@@ -41,11 +50,11 @@ const MyProductsTemplate: React.FC = () => {
 				<IonCol size='6' className='p-0'>
 					<PieTotalSalesProduct
 						data={{
-							labels: ['Ene', 'Feb'],
+							labels: ['Quantity 1', 'Quantity 2'],
 							datasets: [
 								{
 									label: '# of Red Votes',
-									data: [50, 30],
+									data: [quantity1, quantity2],
 									backgroundColor: [
 										'rgb(255, 255, 255)',
 										'rgba(255, 255, 255, 0.5)',
@@ -76,7 +85,7 @@ const MyProductsTemplate: React.FC = () => {
 							datasets: [
 								{
 									label: '# of Red Votes',
-									data: [18, 16, 20, 17, 14, 17, 19, 14, 20, 15, 14, 13],
+									data: dashboardChartData,
 									backgroundColor: [
 										'rgb(255, 255, 255)',
 										'rgba(255, 255, 255, 0.5)',
@@ -99,13 +108,6 @@ const MyProductsTemplate: React.FC = () => {
 			</IonRow>
 			<IonRow>
 				<IonCol>
-					<IonSearchbar
-						className='ion-border-radius-sm'
-						showCancelButton='never'></IonSearchbar>
-				</IonCol>
-			</IonRow>
-			<IonRow>
-				<IonCol>
 					<IonList>
 						<IonItem>
 							<h3>
@@ -118,10 +120,13 @@ const MyProductsTemplate: React.FC = () => {
 								/>
 							</h3>
 						</IonItem>
-						{myProducts?.map(({ name, image }, i) => {
+						{myProducts?.map(({ productId, name, image }, i) => {
 							return (
-								<div key={i}>
-									<IonItem>
+								<IonItemSliding key={i}>
+									<IonItem
+										onClick={() => {
+											history.push(`/updateProduct/${productId}`);
+										}}>
 										<IonThumbnail
 											slot='start'
 											style={{ width: '65px', height: '65px' }}>
@@ -140,7 +145,21 @@ const MyProductsTemplate: React.FC = () => {
 										</IonLabel>
 										<IonIcon icon={chevronForwardOutline} />
 									</IonItem>
-								</div>
+									<IonItemOptions>
+										<IonItemOption
+											color='primary'
+											onClick={() => {
+												deleteProductById(productId)
+													.then((result) => {
+														history.goBack();
+													})
+													.catch((err) => {});
+											}}>
+											<IonIcon slot='start' icon={trashOutline} />
+											Delete
+										</IonItemOption>
+									</IonItemOptions>
+								</IonItemSliding>
 							);
 						})}
 					</IonList>
