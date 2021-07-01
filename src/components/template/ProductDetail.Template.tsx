@@ -127,9 +127,9 @@ const ProductDetailTemplate = ({ productId }: ProductDetailType) => {
 
 							<hr />
 							<IonRow>
-								<IonCol>
+								{/* <IonCol>
 									<SendMessageButton />
-								</IonCol>
+								</IonCol> */}
 								<IonCol>
 									<NewQuotation
 										price={productDetailData.price}

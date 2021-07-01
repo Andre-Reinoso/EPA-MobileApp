@@ -172,7 +172,7 @@ const DashboardActionList = () => {
 				<IonIcon icon={chevronForwardOutline} />
 			</IonItem>
 
-			<IonItem
+			{/* <IonItem
 				onClick={() => {
 					history.push('/myAlerts');
 				}}>
@@ -199,7 +199,7 @@ const DashboardActionList = () => {
 					/>
 				</IonLabel>
 				<IonIcon icon={chevronForwardOutline} />
-			</IonItem>
+			</IonItem> */}
 		</IonList>
 	);
 };

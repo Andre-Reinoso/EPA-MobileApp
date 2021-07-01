@@ -195,7 +195,7 @@ const App: React.FC = () => {
 					<PrivateRoute
 						authenticated={currentUser.auth}
 						exact
-						path='/chat'
+						path='/chat/:id'
 						component={Chat}
 					/>
 					<PrivateRoute
