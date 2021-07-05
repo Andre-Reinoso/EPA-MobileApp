@@ -120,9 +120,8 @@ const MyQuotes: React.FC = () => {
 										/>
 									</IonItem>
 									<IonButton
-										onClick={() => {
-											verifyOrderStatus();
-										}}
+										href={`http://localhost:4200/orderconsult/${orderCode}`}
+										target='_blank'
 										expand='block'
 										className='mx-5'
 										color='primary'>
