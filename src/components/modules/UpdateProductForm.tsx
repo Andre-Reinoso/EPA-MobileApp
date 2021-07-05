@@ -109,7 +109,6 @@ const UpdateProductForm = () => {
 		const { getProductById } = new ProductService();
 		getProductById(productId)
 			.then((result) => {
-				console.log(result);
 				setProduct(result);
 				setFieldValue('name', result.name);
 				setFieldValue('category', result.category);
@@ -162,8 +161,6 @@ const UpdateProductForm = () => {
 			dismissLoading();
 		}
 	}
-
-	console.log(product);
 	const { values, setFieldValue, handleSubmit, errors } = useFormik({
 		initialValues: {
 			name: '',

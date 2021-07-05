@@ -16,6 +16,9 @@ interface Quotation {
 	status: string;
 	userSellerId: string;
 	usersId: string;
+	productName: string;
+	userName: string;
+	email:string;
 }
 
 class QuotationService {
@@ -26,9 +29,9 @@ class QuotationService {
 			throw new Error(error);
 		}
 	}
-	async deleteQuotationById(id:string) {
+	async deleteQuotationById(id: string) {
 		try {
-			return await quotationDatabaseReference.doc(id).delete()
+			return await quotationDatabaseReference.doc(id).delete();
 		} catch (error) {
 			throw new Error(error);
 		}

@@ -90,7 +90,11 @@ const logoromex =
 const logomarket =
 	'https://firebasestorage.googleapis.com/v0/b/explore-peru-from-abroad.appspot.com/o/productos%2Flogomarket.png?alt=media&token=93cd767e-dcb0-436e-bc59-3312d1f82ba5';
 
+const container =
+	'https://firebasestorage.googleapis.com/v0/b/explore-peru-from-abroad.appspot.com/o/Assets%2Fcontainer.jpg?alt=media&token=9394e77f-574c-4841-9a6a-8f1b7249da86';
+
 export {
+	container,
 	logo450,
 	logoWhite450,
 	bannerWelcomeUrl,

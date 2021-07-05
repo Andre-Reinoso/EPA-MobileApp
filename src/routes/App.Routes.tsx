@@ -33,6 +33,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import PrivateRoute from './Private.Routes';
 import PublicRoute from './Public.Routes';
 import UserService from '../services/UseCases/User.Service';
+import QuotationDetail from '../pages/QuotationDetail';
 
 const App: React.FC = () => {
 	const { currentUser, login, logout } = useContext(UserContext);
@@ -216,6 +217,12 @@ const App: React.FC = () => {
 						exact
 						path='/myQuotes'
 						component={MyQuotes}
+					/>
+					<PrivateRoute
+						authenticated={currentUser.auth}
+						exact
+						path='/quotationDetail/:id'
+						component={QuotationDetail}
 					/>
 					<Route exact path='/' render={() => <Redirect to='/login' />} />
 				</IonRouterOutlet>

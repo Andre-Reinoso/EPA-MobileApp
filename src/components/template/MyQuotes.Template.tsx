@@ -67,9 +67,12 @@ const MyQuotesTemplate: React.FC = () => {
 						{quotes?.map((quote, i) => {
 							return (
 								<IonItemSliding key={i}>
-									<IonItem>
+									<IonItem
+										onClick={() => {
+											history.push(`/quotationDetail/${quote.docId}`)
+										}}>
 										<IonLabel>
-											<h3></h3>
+											<h3>{quote.productName}</h3>
 											<p>
 												<IonIcon
 													className='mx-2'

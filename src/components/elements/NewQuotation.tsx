@@ -42,7 +42,6 @@ const NewQuotation = ({
 	const { currentUser } = React.useContext(UserContext);
 	const [showModal, setShowModal] = useState(false);
 	const [countries, setCountries] = useState<Array<any>>([]);
-
 	useEffect(() => {
 		const { getAllCountries } = new EpaService();
 		getAllCountries().then((result: any) => {
@@ -91,6 +90,9 @@ const NewQuotation = ({
 					messageTranslate: '',
 					messageUser: '',
 					status: 'Por atender',
+					productName: productName,
+					userName: currentUser.data.firstName,
+					email: currentUser.data.email,
 					...values,
 				});
 			}
